@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- CV Document Sheet -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M34,26 L62,26 L74,38 L74,82 C74,84.2 72.2,86 70,86 L34,86 C31.8,86 30,84.2 30,82 L30,30 C30,27.8 31.8,26 34,26 Z" />
+
+    <!-- Folded corner -->
+    <path
+        android:fillColor="#D8E8E3"
+        android:pathData="M62,26 L74,38 L62,38 Z" />
+
+    <!-- Avatar circle placeholder on resume header -->
+    <path
+        android:fillColor="#1F6F5C"
+        android:pathData="M37,35 A4.5,4.5 0 1,0 46,35 A4.5,4.5 0 1,0 37,35 Z" />
+
+    <!-- Header name line -->
+    <path
+        android:fillColor="#1F6F5C"
+        android:pathData="M49,33 L60,33 C60.6,33 61,33.4 61,34 L61,35 C61,35.6 60.6,36 60,36 L49,36 C48.4,36 48,35.6 48,35 L48,34 C48,33.4 48.4,33 49,33 Z" />
+
+    <!-- Header subtitle line -->
+    <path
+        android:fillColor="#7BAF9E"
+        android:pathData="M49,38 L57,38 C57.6,38 58,38.4 58,39 L58,40 C58,40.6 57.6,41 57,41 L49,41 C48.4,41 48,40.6 48,40 L48,39 C48,38.4 48.4,38 49,38 Z" />
+
+    <!-- Section Divider -->
+    <path
+        android:fillColor="#E0A96D"
+        android:pathData="M36,46 L68,46 C68.6,46 69,46.4 69,47 L69,47.5 C69,48.1 68.6,48.5 68,48.5 L36,48.5 C35.4,48.5 35,48.1 35,47.5 L35,47 C35,46.4 35.4,46 36,46 Z" />
+
+    <!-- Resume Content Lines -->
+    <path
+        android:fillColor="#95A5A1"
+        android:pathData="M36,53 L68,53 C68.6,53 69,53.4 69,54 L69,54.5 C69,55.1 68.6,55.5 68,55.5 L36,55.5 C35.4,55.5 35,55.1 35,54.5 L35,54 C35,53.4 35.4,53 36,53 Z" />
+    <path
+        android:fillColor="#BAC7C3"
+        android:pathData="M36,59 L62,59 C62.6,59 63,59.4 63,60 L63,60.5 C63,61.1 62.6,61.5 62,61.5 L36,61.5 C35.4,61.5 35,61.1 35,60.5 L35,60 C35,59.4 35.4,59 36,59 Z" />
+
+    <path
+        android:fillColor="#95A5A1"
+        android:pathData="M36,67 L68,67 C68.6,67 69,67.4 69,68 L69,68.5 C69,69.1 68.6,69.5 68,69.5 L36,69.5 C35.4,69.5 35,69.1 35,68.5 L35,68 C35,67.4 35.4,67 36,67 Z" />
+    <path
+        android:fillColor="#BAC7C3"
+        android:pathData="M36,73 L55,73 C55.6,73 56,73.4 56,74 L56,74.5 C56,75.1 55.6,75.5 55,75.5 L36,75.5 C35.4,75.5 35,75.1 35,74.5 L35,74 C35,73.4 35.4,73 36,73 Z" />
+
+    <!-- Craft Quill / Pen / Check Gold Badge in bottom right corner -->
+    <path
+        android:fillColor="#E0A96D"
+        android:pathData="M66,66 A9,9 0 1,0 84,66 A9,9 0 1,0 66,66 Z" />
+    <!-- Checkmark inside badge -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M71.5,66.2 L74,68.7 L78.8,63.5 C79.2,63.1 79.8,63.1 80.2,63.5 C80.6,63.9 80.6,64.5 80.2,64.9 L74.7,70.8 C74.3,71.2 73.7,71.2 73.3,70.8 L70.1,67.6 C69.7,67.2 69.7,66.6 70.1,66.2 C70.5,65.8 71.1,65.8 71.5,66.2 Z" />
+</vector>

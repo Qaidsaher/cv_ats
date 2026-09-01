@@ -1,0 +1,68 @@
+{
+  "id": "arabic_professional",
+  "version": 1,
+  "schemaVersion": 1,
+  "name": "Arabic Professional",
+  "description": "قالب مصمم خصيصاً للغة العربية واتجاه اليمين لليسار، مع دعم الخطوط العربية والشارات المميزة والأناقة الشرقية الحديثة.",
+  "isPremium": false,
+  "isAtsFriendly": true,
+  "category": "arabic",
+  "supportedLanguages": ["ar", "en"],
+  "supportsRtl": true,
+  "page": {
+    "size": "A4",
+    "marginTop": 24,
+    "marginBottom": 24,
+    "marginStart": 26,
+    "marginEnd": 26
+  },
+  "layout": {
+    "type": "sidebar_start",
+    "sidebarPosition": "start",
+    "sidebarWidth": 0.32,
+    "headerStyle": "arabic_elegance",
+    "sectionHeaderStyle": "arabic_badge"
+  },
+  "colors": {
+    "primary": "#0F5141",
+    "secondary": "#63471A",
+    "accent": "#D4AF37",
+    "background": "#FFFFFF",
+    "sidebar": "#F4F8F6",
+    "textPrimary": "#102A24",
+    "textSecondary": "#3D4F4A"
+  },
+  "typography": {
+    "fontFamily": "arabic_modern",
+    "nameSize": 24,
+    "titleSize": 14,
+    "sectionTitleSize": 12.5,
+    "bodySize": 10,
+    "captionSize": 8.5
+  },
+  "photo": {
+    "enabled": true,
+    "shape": "circle",
+    "size": 75
+  },
+  "sections": [
+    "personal",
+    "summary",
+    "skills",
+    "languages",
+    "experience",
+    "education",
+    "projects",
+    "certificates",
+    "references"
+  ],
+  "customizable": {
+    "primaryColor": true,
+    "secondaryColor": true,
+    "fontFamily": true,
+    "fontSize": true,
+    "spacing": true,
+    "showPhoto": true,
+    "pageFormat": true
+  }
+}

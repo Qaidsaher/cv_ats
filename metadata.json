@@ -1,0 +1,6 @@
+{
+  "name": "ResumeCraft",
+  "description": "Professional CV and Resume Builder with ATS-friendly templates, live preview, multi-language support (Arabic and English RTL/LTR), and high-quality PDF export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

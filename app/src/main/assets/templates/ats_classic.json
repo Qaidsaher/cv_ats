@@ -1,0 +1,68 @@
+{
+  "id": "ats_classic",
+  "version": 1,
+  "schemaVersion": 1,
+  "name": "ATS Classic",
+  "description": "Standard single-column ATS optimized format designed to pass automated applicant tracking systems without graphical interference.",
+  "isPremium": false,
+  "isAtsFriendly": true,
+  "category": "ats",
+  "supportedLanguages": ["en", "ar"],
+  "supportsRtl": true,
+  "page": {
+    "size": "A4",
+    "marginTop": 24,
+    "marginBottom": 24,
+    "marginStart": 28,
+    "marginEnd": 28
+  },
+  "layout": {
+    "type": "single_column",
+    "sidebarPosition": "none",
+    "sidebarWidth": 0.0,
+    "headerStyle": "centered_clean",
+    "sectionHeaderStyle": "underline_bold"
+  },
+  "colors": {
+    "primary": "#1A1A1A",
+    "secondary": "#4A4A4A",
+    "accent": "#0D5C75",
+    "background": "#FFFFFF",
+    "sidebar": "#FFFFFF",
+    "textPrimary": "#111111",
+    "textSecondary": "#333333"
+  },
+  "typography": {
+    "fontFamily": "default",
+    "nameSize": 22,
+    "titleSize": 13,
+    "sectionTitleSize": 12,
+    "bodySize": 10,
+    "captionSize": 8.5
+  },
+  "photo": {
+    "enabled": false,
+    "shape": "none",
+    "size": 0
+  },
+  "sections": [
+    "personal",
+    "summary",
+    "experience",
+    "education",
+    "skills",
+    "projects",
+    "certificates",
+    "languages",
+    "references"
+  ],
+  "customizable": {
+    "primaryColor": true,
+    "secondaryColor": true,
+    "fontFamily": true,
+    "fontSize": true,
+    "spacing": true,
+    "showPhoto": false,
+    "pageFormat": true
+  }
+}

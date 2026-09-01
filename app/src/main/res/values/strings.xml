@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ResumeCraft</string>
+    <string name="app_tagline">Create Professional Resumes Effortlessly</string>
+
+    <!-- Navigation & Tabs -->
+    <string name="nav_home">Home</string>
+    <string name="nav_templates">Templates</string>
+    <string name="nav_premium">Premium</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Home Screen -->
+    <string name="home_welcome_title">Welcome to ResumeCraft</string>
+    <string name="home_welcome_subtitle">Design outstanding resumes and pass ATS scanners</string>
+    <string name="home_create_resume">Create New Resume</string>
+    <string name="home_my_resumes">My Resumes</string>
+    <string name="home_no_resumes_title">Create your first professional resume</string>
+    <string name="home_no_resumes_desc">Choose from modern, ATS-friendly templates with full Arabic &amp; English support</string>
+    <string name="home_search_placeholder">Search resumes...</string>
+    <string name="home_last_edited">Last edited: %1$s</string>
+    <string name="home_explore_templates">Explore Templates</string>
+
+    <!-- Resume Actions -->
+    <string name="action_edit">Edit</string>
+    <string name="action_preview">Preview</string>
+    <string name="action_export">Export PDF</string>
+    <string name="action_duplicate">Duplicate</string>
+    <string name="action_rename">Rename</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_confirm">Confirm</string>
+    <string name="action_share">Share</string>
+    <string name="action_print">Print</string>
+    <string name="action_use_template">Use Template</string>
+    <string name="action_customize">Customize</string>
+    <string name="action_restore">Restore</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_create_title">Create Resume</string>
+    <string name="dialog_resume_name">Resume Title</string>
+    <string name="dialog_resume_name_hint">e.g. Software Engineer Resume</string>
+    <string name="dialog_resume_language">Resume Language</string>
+    <string name="lang_arabic">العربية (Arabic - RTL)</string>
+    <string name="lang_english">English (LTR)</string>
+    <string name="dialog_template">Initial Template</string>
+    <string name="dialog_start_option">Starting Mode</string>
+    <string name="dialog_start_scratch">Start from scratch (Blank)</string>
+    <string name="dialog_start_sample">Use sample structure</string>
+    <string name="dialog_delete_title">Delete Resume</string>
+    <string name="dialog_delete_msg">Are you sure you want to delete \"%1$s\"? This action cannot be undone.</string>
+    <string name="dialog_rename_title">Rename Resume</string>
+
+    <!-- Editor Dashboard -->
+    <string name="editor_title">Resume Editor</string>
+    <string name="editor_status_saving">Saving...</string>
+    <string name="editor_status_saved">Saved</string>
+    <string name="editor_section_personal">Personal Information</string>
+    <string name="editor_section_summary">Professional Summary</string>
+    <string name="editor_section_experience">Experience</string>
+    <string name="editor_section_education">Education</string>
+    <string name="editor_section_skills">Skills</string>
+    <string name="editor_section_languages">Languages</string>
+    <string name="editor_section_projects">Projects</string>
+    <string name="editor_section_certificates">Certificates &amp; Courses</string>
+    <string name="editor_section_references">References</string>
+    <string name="editor_section_custom">Custom Sections</string>
+    <string name="editor_add_section">Add Section</string>
+    <string name="editor_reorder_sections">Reorder Sections</string>
+    <string name="editor_completed">Completed</string>
+    <string name="editor_items_count">%1$d items</string>
+    <string name="editor_optional">Optional</string>
+
+    <!-- Form Fields -->
+    <string name="field_first_name">First Name</string>
+    <string name="field_middle_name">Middle Name</string>
+    <string name="field_last_name">Last Name</string>
+    <string name="field_job_title">Professional Title</string>
+    <string name="field_email">Email</string>
+    <string name="field_phone">Phone</string>
+    <string name="field_city">City</string>
+    <string name="field_country">Country</string>
+    <string name="field_address">Address</string>
+    <string name="field_website">Website</string>
+    <string name="field_linkedin">LinkedIn</string>
+    <string name="field_github">GitHub</string>
+    <string name="field_portfolio">Portfolio</string>
+    <string name="field_profile_photo">Profile Photo</string>
+    <string name="field_change_photo">Change Photo</string>
+    <string name="field_remove_photo">Remove Photo</string>
+    <string name="field_summary">Summary</string>
+    <string name="field_company">Company / Organization</string>
+    <string name="field_location">Location</string>
+    <string name="field_start_date">Start Date</string>
+    <string name="field_end_date">End Date</string>
+    <string name="field_currently_working">I currently work here</string>
+    <string name="field_currently_studying">I currently study here</string>
+    <string name="field_description">Description &amp; Achievements</string>
+    <string name="field_institution">Institution / University</string>
+    <string name="field_degree">Degree</string>
+    <string name="field_field_of_study">Field of Study</string>
+    <string name="field_skill_name">Skill Name</string>
+    <string name="field_skill_level">Proficiency Level</string>
+    <string name="field_language_name">Language</string>
+    <string name="field_language_proficiency">Proficiency</string>
+    <string name="field_project_name">Project Name</string>
+    <string name="field_project_role">Your Role</string>
+    <string name="field_technologies">Technologies Used</string>
+    <string name="field_project_url">Project URL</string>
+    <string name="field_cert_name">Certificate Name</string>
+    <string name="field_cert_issuer">Issuing Organization</string>
+    <string name="field_cert_date">Issue Date</string>
+    <string name="field_cert_id">Credential ID</string>
+    <string name="field_cert_url">Credential URL</string>
+    <string name="field_ref_name">Reference Name</string>
+    <string name="field_ref_title">Job Title</string>
+    <string name="field_ref_company">Company</string>
+    <string name="field_custom_title">Custom Section Title</string>
+    <string name="field_custom_content">Content</string>
+
+    <!-- Proficiency Levels -->
+    <string name="level_beginner">Beginner</string>
+    <string name="level_intermediate">Intermediate</string>
+    <string name="level_advanced">Advanced</string>
+    <string name="level_expert">Expert</string>
+    <string name="level_native">Native</string>
+    <string name="level_fluent">Fluent</string>
+
+    <!-- Templates Gallery -->
+    <string name="templates_title">Template Gallery</string>
+    <string name="tab_all">All</string>
+    <string name="tab_ats">ATS Friendly</string>
+    <string name="tab_professional">Professional</string>
+    <string name="tab_modern">Modern</string>
+    <string name="tab_arabic">Arabic RTL</string>
+    <string name="tab_minimal">Minimal</string>
+    <string name="tab_premium">Pro</string>
+    <string name="badge_ats">ATS Friendly</string>
+    <string name="badge_pro">PRO</string>
+    <string name="badge_free">Free</string>
+
+    <string name="tab_favorites">Favorites</string>
+    <string name="templates_use_template">Use Template</string>
+    <string name="preview_customize">Customize</string>
+    <string name="custom_theme_color">Primary Color</string>
+    <string name="custom_font_size">Font Size</string>
+    <string name="custom_show_photo">Show Profile Photo</string>
+    <string name="custom_page_format">Page Format</string>
+
+    <!-- Customization -->
+    <string name="customization_title">Customize Template</string>
+    <string name="customize_primary_color">Primary Color</string>
+    <string name="customize_secondary_color">Secondary Color</string>
+    <string name="customize_font">Font Family</string>
+    <string name="customize_font_size">Font Size</string>
+    <string name="customize_spacing">Line Spacing</string>
+    <string name="customize_show_photo">Show Profile Photo</string>
+    <string name="customize_page_format">Page Format</string>
+    <string name="page_a4">A4 (Standard International)</string>
+    <string name="page_letter">Letter (North America)</string>
+
+    <!-- Preview & Export -->
+    <string name="preview_title">Resume Preview</string>
+    <string name="export_title">Export Resume</string>
+    <string name="export_btn_pdf">Save PDF to Device</string>
+    <string name="export_btn_share">Share PDF File</string>
+    <string name="export_btn_print">Print Resume</string>
+    <string name="export_generating">Generating high quality PDF...</string>
+    <string name="export_success">PDF generated successfully!</string>
+    <string name="export_error">Error generating PDF</string>
+    <string name="export_pages_count">Pages: %1$d</string>
+
+    <!-- Premium Screen -->
+    <string name="premium_title">ResumeCraft Pro</string>
+    <string name="premium_headline">Unlock All Premium Templates for Life</string>
+    <string name="premium_feature_1">Full access to all present &amp; future templates</string>
+    <string name="premium_feature_2">100% Ad-free experience</string>
+    <string name="premium_feature_3">Unlimited color &amp; font customization</string>
+    <string name="premium_feature_4">Ultra HD vector PDF exports without watermark</string>
+    <string name="premium_feature_5">Remote dynamic templates without app updates</string>
+    <string name="premium_buy_lifetime">Get Lifetime Pro Access</string>
+    <string name="premium_restore_purchases">Restore Previous Purchases</string>
+    <string name="premium_already_pro">You have ResumeCraft Pro!</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_app_language">App Language</string>
+    <string name="settings_theme">Theme</string>
+    <string name="theme_system">System Default</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="settings_default_resume_lang">Default Resume Language</string>
+    <string name="settings_default_page_format">Default Page Format</string>
+    <string name="settings_privacy_policy">Privacy Policy</string>
+    <string name="settings_terms">Terms of Service</string>
+    <string name="settings_rate_app">Rate App</string>
+    <string name="settings_share_app">Share with Friends</string>
+    <string name="settings_about">About ResumeCraft</string>
+    <string name="settings_version">Version: %1$s</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_get_started">Get Started</string>
+    <string name="onboarding_1_title">Professional Resumes in Minutes</string>
+    <string name="onboarding_1_desc">Choose a template, enter your details with instant auto-save and live formatting.</string>
+    <string name="onboarding_2_title">Full Arabic &amp; English Support</string>
+    <string name="onboarding_2_desc">Dedicated RTL templates, native Arabic typography shaping, and full ATS software compatibility.</string>
+    <string name="onboarding_3_title">High Quality PDF Export &amp; Print</string>
+    <string name="onboarding_3_desc">Generate vector-sharp PDFs ready for direct application to top companies worldwide.</string>
+</resources>

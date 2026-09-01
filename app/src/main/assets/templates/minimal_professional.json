@@ -1,0 +1,67 @@
+{
+  "id": "minimal_professional",
+  "version": 1,
+  "schemaVersion": 1,
+  "name": "Minimal Professional",
+  "description": "Clean, understated minimalism with subtle hairline dividers, generous white space, and refined typography.",
+  "isPremium": false,
+  "isAtsFriendly": true,
+  "category": "minimal",
+  "supportedLanguages": ["en", "ar"],
+  "supportsRtl": true,
+  "page": {
+    "size": "A4",
+    "marginTop": 26,
+    "marginBottom": 26,
+    "marginStart": 30,
+    "marginEnd": 30
+  },
+  "layout": {
+    "type": "single_column",
+    "sidebarPosition": "none",
+    "sidebarWidth": 0.0,
+    "headerStyle": "left_aligned",
+    "sectionHeaderStyle": "subtle_divider"
+  },
+  "colors": {
+    "primary": "#2D3748",
+    "secondary": "#718096",
+    "accent": "#319795",
+    "background": "#FFFFFF",
+    "sidebar": "#FFFFFF",
+    "textPrimary": "#1A202C",
+    "textSecondary": "#4A5568"
+  },
+  "typography": {
+    "fontFamily": "sans_serif",
+    "nameSize": 24,
+    "titleSize": 14,
+    "sectionTitleSize": 12.5,
+    "bodySize": 9.5,
+    "captionSize": 8.5
+  },
+  "photo": {
+    "enabled": true,
+    "shape": "circle",
+    "size": 65
+  },
+  "sections": [
+    "personal",
+    "summary",
+    "experience",
+    "education",
+    "skills",
+    "projects",
+    "languages",
+    "certificates"
+  ],
+  "customizable": {
+    "primaryColor": true,
+    "secondaryColor": true,
+    "fontFamily": true,
+    "fontSize": true,
+    "spacing": true,
+    "showPhoto": true,
+    "pageFormat": true
+  }
+}

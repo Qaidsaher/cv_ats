@@ -1,0 +1,67 @@
+{
+  "id": "modern_green",
+  "version": 1,
+  "schemaVersion": 1,
+  "name": "Modern Green",
+  "description": "Contemporary two-column layout with an emerald sidebar, elegant badge chips, and strong visual hierarchy.",
+  "isPremium": false,
+  "isAtsFriendly": false,
+  "category": "modern",
+  "supportedLanguages": ["en", "ar"],
+  "supportsRtl": true,
+  "page": {
+    "size": "A4",
+    "marginTop": 24,
+    "marginBottom": 24,
+    "marginStart": 24,
+    "marginEnd": 24
+  },
+  "layout": {
+    "type": "sidebar_start",
+    "sidebarPosition": "start",
+    "sidebarWidth": 0.33,
+    "headerStyle": "sidebar_integrated",
+    "sectionHeaderStyle": "accent_badge"
+  },
+  "colors": {
+    "primary": "#1F6F5C",
+    "secondary": "#2C403B",
+    "accent": "#E0A96D",
+    "background": "#FFFFFF",
+    "sidebar": "#F3F8F6",
+    "textPrimary": "#1A2E2B",
+    "textSecondary": "#4D635E"
+  },
+  "typography": {
+    "fontFamily": "default",
+    "nameSize": 22,
+    "titleSize": 13,
+    "sectionTitleSize": 12,
+    "bodySize": 9.5,
+    "captionSize": 8
+  },
+  "photo": {
+    "enabled": true,
+    "shape": "rounded_square",
+    "size": 80
+  },
+  "sections": [
+    "personal",
+    "summary",
+    "skills",
+    "languages",
+    "certificates",
+    "experience",
+    "education",
+    "projects"
+  ],
+  "customizable": {
+    "primaryColor": true,
+    "secondaryColor": true,
+    "fontFamily": true,
+    "fontSize": true,
+    "spacing": true,
+    "showPhoto": true,
+    "pageFormat": true
+  }
+}

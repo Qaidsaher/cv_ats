@@ -1,0 +1,67 @@
+{
+  "id": "tech_creator",
+  "version": 1,
+  "schemaVersion": 1,
+  "name": "Tech Innovator",
+  "description": "Tailored for software engineers, designers and IT specialists with rich tech stack pills, github/portfolio links and project highlights.",
+  "isPremium": true,
+  "isAtsFriendly": false,
+  "category": "modern",
+  "supportedLanguages": ["en", "ar"],
+  "supportsRtl": true,
+  "page": {
+    "size": "A4",
+    "marginTop": 24,
+    "marginBottom": 24,
+    "marginStart": 26,
+    "marginEnd": 26
+  },
+  "layout": {
+    "type": "sidebar_end",
+    "sidebarPosition": "end",
+    "sidebarWidth": 0.32,
+    "headerStyle": "tech_modern",
+    "sectionHeaderStyle": "tech_pill"
+  },
+  "colors": {
+    "primary": "#2563EB",
+    "secondary": "#1E293B",
+    "accent": "#F59E0B",
+    "background": "#FFFFFF",
+    "sidebar": "#F1F5F9",
+    "textPrimary": "#0F172A",
+    "textSecondary": "#475569"
+  },
+  "typography": {
+    "fontFamily": "default",
+    "nameSize": 23,
+    "titleSize": 13.5,
+    "sectionTitleSize": 12,
+    "bodySize": 9.5,
+    "captionSize": 8
+  },
+  "photo": {
+    "enabled": true,
+    "shape": "circle",
+    "size": 75
+  },
+  "sections": [
+    "personal",
+    "summary",
+    "experience",
+    "projects",
+    "education",
+    "skills",
+    "languages",
+    "certificates"
+  ],
+  "customizable": {
+    "primaryColor": true,
+    "secondaryColor": true,
+    "fontFamily": true,
+    "fontSize": true,
+    "spacing": true,
+    "showPhoto": true,
+    "pageFormat": true
+  }
+}

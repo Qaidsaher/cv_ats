@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">صانع السيرة الذاتية</string>
+    <string name="app_tagline">أنشئ سيرتك الذاتية الاحترافية بسهولة</string>
+
+    <!-- Navigation & Tabs -->
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_templates">النماذج</string>
+    <string name="nav_premium">النسخة الاحترافية</string>
+    <string name="nav_settings">الإعدادات</string>
+
+    <!-- Home Screen -->
+    <string name="home_welcome_title">مرحباً بك في صانع السيرة الذاتية</string>
+    <string name="home_welcome_subtitle">صمم سيرة ذاتية متميزة واجتز أنظمة التوظيف ATS</string>
+    <string name="home_create_resume">إنشاء سيرة ذاتية جديدة</string>
+    <string name="home_my_resumes">سيري الذاتية</string>
+    <string name="home_no_resumes_title">أنشئ سيرتك الذاتية الاحترافية الأولى</string>
+    <string name="home_no_resumes_desc">اختر من بين نماذج عصرية متوافقة مع أنظمة ATS باللغتين العربية والإنجليزية</string>
+    <string name="home_search_placeholder">البحث في السير الذاتية...</string>
+    <string name="home_last_edited">آخر تعديل: %1$s</string>
+    <string name="home_explore_templates">استعراض النماذج</string>
+
+    <!-- Resume Actions -->
+    <string name="action_edit">تعديل</string>
+    <string name="action_preview">معاينة</string>
+    <string name="action_export">تصدير PDF</string>
+    <string name="action_duplicate">نسخ</string>
+    <string name="action_rename">إعادة تسمية</string>
+    <string name="action_delete">حذف</string>
+    <string name="action_save">حفظ</string>
+    <string name="action_cancel">إلغاء</string>
+    <string name="action_confirm">تأكيد</string>
+    <string name="action_share">مشاركة</string>
+    <string name="action_print">طباعة</string>
+    <string name="action_use_template">استخدام هذا النموذج</string>
+    <string name="action_customize">تخصيص</string>
+    <string name="action_restore">استعادة</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_create_title">إنشاء سيرة ذاتية</string>
+    <string name="dialog_resume_name">اسم السيرة الذاتية</string>
+    <string name="dialog_resume_name_hint">مثال: سيرة ذاتية - مهندس برمجيات</string>
+    <string name="dialog_resume_language">لغة السيرة الذاتية</string>
+    <string name="lang_arabic">العربية (Arabic - RTL)</string>
+    <string name="lang_english">الإنجليزية (English - LTR)</string>
+    <string name="dialog_template">النموذج المبدئي</string>
+    <string name="dialog_start_option">طريقة البدء</string>
+    <string name="dialog_start_scratch">البدء من الصفر (فارغ)</string>
+    <string name="dialog_start_sample">استخدام بيانات نموذجية</string>
+    <string name="dialog_delete_title">حذف السيرة الذاتية</string>
+    <string name="dialog_delete_msg">هل أنت متأكد من حذف \"%1$s\"؟ لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="dialog_rename_title">إعادة تسمية السيرة الذاتية</string>
+
+    <!-- Editor Dashboard -->
+    <string name="editor_title">محرر السيرة الذاتية</string>
+    <string name="editor_status_saving">جارٍ الحفظ...</string>
+    <string name="editor_status_saved">تم الحفظ</string>
+    <string name="editor_section_personal">المعلومات الشخصية</string>
+    <string name="editor_section_summary">الملخص المهني</string>
+    <string name="editor_section_experience">الخبرات المهنية</string>
+    <string name="editor_section_education">التعليم والمؤهلات</string>
+    <string name="editor_section_skills">المهارات</string>
+    <string name="editor_section_languages">اللغات</string>
+    <string name="editor_section_projects">المشاريع</string>
+    <string name="editor_section_certificates">الشهادات والدورات</string>
+    <string name="editor_section_references">المعرفون والمراجع</string>
+    <string name="editor_section_custom">أقسام مخصصة</string>
+    <string name="editor_add_section">إضافة قسم جديد</string>
+    <string name="editor_reorder_sections">ترتيب الأقسام</string>
+    <string name="editor_completed">مكتمل</string>
+    <string name="editor_items_count">%1$d عناصر</string>
+    <string name="editor_optional">اختياري</string>
+
+    <!-- Form Fields -->
+    <string name="field_first_name">الاسم الأول</string>
+    <string name="field_middle_name">اسم الأب / الأوسط</string>
+    <string name="field_last_name">اسم العائلة</string>
+    <string name="field_job_title">المسمى الوظيفي</string>
+    <string name="field_email">البريد الإلكتروني</string>
+    <string name="field_phone">رقم الهاتف</string>
+    <string name="field_city">المدينة</string>
+    <string name="field_country">الدولة</string>
+    <string name="field_address">العنوان</string>
+    <string name="field_website">الموقع الشخصي</string>
+    <string name="field_linkedin">حساب LinkedIn</string>
+    <string name="field_github">حساب GitHub</string>
+    <string name="field_portfolio">معرض الأعمال Portfolio</string>
+    <string name="field_profile_photo">الصورة الشخصية</string>
+    <string name="field_change_photo">تغيير الصورة</string>
+    <string name="field_remove_photo">إزالة الصورة</string>
+    <string name="field_summary">الملخص</string>
+    <string name="field_company">الشركة / المؤسسة</string>
+    <string name="field_location">الموقع</string>
+    <string name="field_start_date">تاريخ البدء</string>
+    <string name="field_end_date">تاريخ الانتهاء</string>
+    <string name="field_currently_working">أعمل هنا حالياً</string>
+    <string name="field_currently_studying">أدرس هنا حالياً</string>
+    <string name="field_description">الوصف والمهام</string>
+    <string name="field_institution">الجامعة / المؤسسة التعليمية</string>
+    <string name="field_degree">الدرجة العلمية</string>
+    <string name="field_field_of_study">التخصص</string>
+    <string name="field_skill_name">اسم المهارة</string>
+    <string name="field_skill_level">مستوى الإتقان</string>
+    <string name="field_language_name">اللغة</string>
+    <string name="field_language_proficiency">المستوى</string>
+    <string name="field_project_name">اسم المشروع</string>
+    <string name="field_project_role">دورك في المشروع</string>
+    <string name="field_technologies">التقنيات المستخدمة</string>
+    <string name="field_project_url">رابط المشروع</string>
+    <string name="field_cert_name">اسم الشهادة</string>
+    <string name="field_cert_issuer">الجهة المانحة</string>
+    <string name="field_cert_date">تاريخ الإصدار</string>
+    <string name="field_cert_id">معرف الشهادة Credential ID</string>
+    <string name="field_cert_url">رابط التحقق</string>
+    <string name="field_ref_name">اسم المرجع</string>
+    <string name="field_ref_title">المسمى الوظيفي</string>
+    <string name="field_ref_company">الشركة</string>
+    <string name="field_custom_title">عنوان القسم المخصص</string>
+    <string name="field_custom_content">المحتوى</string>
+
+    <!-- Proficiency Levels -->
+    <string name="level_beginner">مبتدئ</string>
+    <string name="level_intermediate">متوسط</string>
+    <string name="level_advanced">متقدم</string>
+    <string name="level_expert">خبير</string>
+    <string name="level_native">اللغة الأم</string>
+    <string name="level_fluent">طليق</string>
+
+    <!-- Templates Gallery -->
+    <string name="templates_title">معرض النماذج</string>
+    <string name="tab_all">الكل</string>
+    <string name="tab_ats">متوافق مع ATS</string>
+    <string name="tab_professional">احترافي</string>
+    <string name="tab_modern">عصري</string>
+    <string name="tab_arabic">عربي RTL</string>
+    <string name="tab_minimal">بسيط Minimal</string>
+    <string name="tab_premium">برو Pro</string>
+    <string name="badge_ats">ATS Friendly</string>
+    <string name="badge_pro">PRO</string>
+    <string name="badge_free">مجاني</string>
+
+    <!-- Customization -->
+    <string name="customization_title">تخصيص النموذج</string>
+    <string name="customize_primary_color">اللون الرئيسي</string>
+    <string name="customize_secondary_color">اللون الثانوي</string>
+    <string name="customize_font">نوع الخط</string>
+    <string name="customize_font_size">حجم النص</string>
+    <string name="customize_spacing">المسافات بين الأسطر</string>
+    <string name="customize_show_photo">إظهار الصورة الشخصية</string>
+    <string name="customize_page_format">حجم الصفحة</string>
+    <string name="page_a4">A4 (قياسي دولي)</string>
+    <string name="page_letter">Letter (أمريكا الشمالية)</string>
+
+    <!-- Preview & Export -->
+    <string name="preview_title">معاينة السيرة الذاتية</string>
+    <string name="export_title">تصدير السيرة الذاتية</string>
+    <string name="export_btn_pdf">حفظ بصيغة PDF</string>
+    <string name="export_btn_share">مشاركة ملف PDF</string>
+    <string name="export_btn_print">طباعة السيرة الذاتية</string>
+    <string name="export_generating">جارٍ تجهيز ملف PDF عالي الجودة...</string>
+    <string name="export_success">تم تصدير ملف PDF بنجاح!</string>
+    <string name="export_error">حدث خطأ أثناء التصدير</string>
+    <string name="export_pages_count">عدد الصفحات: %1$d</string>
+
+    <!-- Premium Screen -->
+    <string name="premium_title">النسخة الاحترافية ResumeCraft Pro</string>
+    <string name="premium_headline">افتح جميع النماذج الاحترافية مدى الحياة</string>
+    <string name="premium_feature_1">وصول كامل لجميع النماذج الحالية والمستقبلية</string>
+    <string name="premium_feature_2">إزالة الإعلانات نهائياً</string>
+    <string name="premium_feature_3">تخصيص غير محدود للألوان والخطوط</string>
+    <string name="premium_feature_4">تصدير PDF بدقة فائقة وبدون علامة مائية</string>
+    <string name="premium_feature_5">تحديثات مستمرة للنماذج دون الحاجة لتحديث التطبيق</string>
+    <string name="premium_buy_lifetime">شراء النسخة الكاملة مدى الحياة</string>
+    <string name="premium_restore_purchases">استعادة المشتريات السابقة</string>
+    <string name="premium_already_pro">أنت مشترك في النسخة الاحترافية Pro!</string>
+
+    <!-- Settings -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_app_language">لغة التطبيق</string>
+    <string name="settings_theme">المظهر</string>
+    <string name="theme_system">تلقائي (حسب النظام)</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_dark">داكن</string>
+    <string name="settings_default_resume_lang">لغة السيرة الذاتية الافتراضية</string>
+    <string name="settings_default_page_format">حجم الصفحة الافتراضي</string>
+    <string name="settings_privacy_policy">سياسة الخصوصية</string>
+    <string name="settings_terms">شروط الاستخدام</string>
+    <string name="settings_rate_app">تقييم التطبيق</string>
+    <string name="settings_share_app">مشاركة التطبيق مع أصدقائك</string>
+    <string name="settings_about">حول التطبيق</string>
+    <string name="settings_version">الإصدار: %1$s</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">تخطي</string>
+    <string name="onboarding_next">التالي</string>
+    <string name="onboarding_get_started">ابدأ الآن</string>
+    <string name="onboarding_1_title">سير ذاتية احترافية في دقائق</string>
+    <string name="onboarding_1_desc">اختر نموذجك المفضل، وأدخل بياناتك بسهولة مع حفظ تلقائي وتنسيق فوري.</string>
+    <string name="onboarding_2_title">دعم كامل للعربية والإنجليزية</string>
+    <string name="onboarding_2_desc">نماذج مخصصة للغة العربية مع دعم تام لاتجاه RTL والخطوط العربية، وتوافق تام مع أنظمة ATS.</string>
+    <string name="onboarding_3_title">تصدير PDF وطباعة فائقة الجودة</string>
+    <string name="onboarding_3_desc">احصل على ملفات PDF نقية وجاهزة للتقديم المباشر في كبرى الشركات.</string>
+</resources>

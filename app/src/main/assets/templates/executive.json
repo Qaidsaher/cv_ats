@@ -1,0 +1,67 @@
+{
+  "id": "executive",
+  "version": 1,
+  "schemaVersion": 1,
+  "name": "Executive Slate",
+  "description": "Distinguished leadership layout featuring a bold dark top header banner, warm gold borders, and structured sections.",
+  "isPremium": true,
+  "isAtsFriendly": false,
+  "category": "professional",
+  "supportedLanguages": ["en", "ar"],
+  "supportsRtl": true,
+  "page": {
+    "size": "A4",
+    "marginTop": 0,
+    "marginBottom": 24,
+    "marginStart": 26,
+    "marginEnd": 26
+  },
+  "layout": {
+    "type": "header_split",
+    "sidebarPosition": "end",
+    "sidebarWidth": 0.32,
+    "headerStyle": "dark_top_banner",
+    "sectionHeaderStyle": "gold_border"
+  },
+  "colors": {
+    "primary": "#1E293B",
+    "secondary": "#475569",
+    "accent": "#C29B38",
+    "background": "#FFFFFF",
+    "sidebar": "#F8FAFC",
+    "textPrimary": "#0F172A",
+    "textSecondary": "#334155"
+  },
+  "typography": {
+    "fontFamily": "serif",
+    "nameSize": 25,
+    "titleSize": 14,
+    "sectionTitleSize": 12.5,
+    "bodySize": 9.5,
+    "captionSize": 8
+  },
+  "photo": {
+    "enabled": true,
+    "shape": "circle",
+    "size": 85
+  },
+  "sections": [
+    "personal",
+    "summary",
+    "experience",
+    "education",
+    "projects",
+    "skills",
+    "languages",
+    "references"
+  ],
+  "customizable": {
+    "primaryColor": true,
+    "secondaryColor": true,
+    "fontFamily": true,
+    "fontSize": true,
+    "spacing": true,
+    "showPhoto": true,
+    "pageFormat": true
+  }
+}
