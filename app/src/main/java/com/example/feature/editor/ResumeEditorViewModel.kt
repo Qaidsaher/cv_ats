@@ -3,6 +3,7 @@ package com.example.feature.editor
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.repository.ResumeRepository
+import com.example.data.repository.TemplateRepository
 import com.example.domain.model.Certificate
 import com.example.domain.model.CustomSection
 import com.example.domain.model.Education
@@ -13,6 +14,7 @@ import com.example.domain.model.Project
 import com.example.domain.model.Reference
 import com.example.domain.model.Resume
 import com.example.domain.model.Skill
+import com.example.domain.model.TemplateSpec
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,6 +24,9 @@ import kotlinx.coroutines.launch
 
 data class EditorUiState(
     val resume: Resume? = null,
+    val template: TemplateSpec? = null,
+    val allTemplates: List<TemplateSpec> = emptyList(),
+    val showTemplateSelector: Boolean = false,
     val isLoading: Boolean = true,
     val isSaving: Boolean = false,
     val hasSaved: Boolean = false,
@@ -30,7 +35,8 @@ data class EditorUiState(
 
 class ResumeEditorViewModel(
     private val resumeRepository: ResumeRepository,
-    private val resumeId: String
+    private val resumeId: String,
+    private val templateRepository: TemplateRepository? = null
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(EditorUiState())
@@ -48,14 +54,41 @@ class ResumeEditorViewModel(
             _uiState.value = _uiState.value.copy(isLoading = true)
             val res = resumeRepository.getResumeByIdDirect(resumeId)
             if (res != null) {
-                _uiState.value = _uiState.value.copy(resume = res, isLoading = false)
+                val currentTemplate = templateRepository?.getTemplateById(res.templateId)
+                _uiState.value = _uiState.value.copy(
+                    resume = res,
+                    template = currentTemplate,
+                    isLoading = false
+                )
             } else {
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     errorMessage = "Resume not found"
                 )
             }
+
+            templateRepository?.getAllTemplates()?.collect { list ->
+                _uiState.value = _uiState.value.copy(allTemplates = list)
+            }
         }
+    }
+
+    fun selectTemplate(templateId: String) {
+        val current = _uiState.value.resume ?: return
+        pushUndoState(current)
+        val updated = current.copy(templateId = templateId)
+        viewModelScope.launch {
+            val newTemplate = templateRepository?.getTemplateById(templateId)
+            _uiState.value = _uiState.value.copy(
+                resume = updated,
+                template = newTemplate ?: _uiState.value.template
+            )
+            scheduleAutoSave(updated)
+        }
+    }
+
+    fun setTemplateSelectorVisible(visible: Boolean) {
+        _uiState.value = _uiState.value.copy(showTemplateSelector = visible)
     }
 
     private fun pushUndoState(current: Resume) {

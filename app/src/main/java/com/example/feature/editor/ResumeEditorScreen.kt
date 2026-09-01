@@ -55,6 +55,8 @@ import com.example.R
 import com.example.core.designsystem.components.AppTopBar
 import com.example.core.designsystem.components.SectionRowCard
 import com.example.domain.model.Resume
+import com.example.feature.templates.AtsActiveLayoutBanner
+import com.example.feature.templates.AtsTemplateSelectorModalSheet
 
 data class EditorSectionMeta(
     val key: String,
@@ -256,6 +258,15 @@ fun ResumeEditorScreen(
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
+                // Active ATS layout switcher banner
+                item(key = "ats_layout_banner") {
+                    AtsActiveLayoutBanner(
+                        template = uiState.template,
+                        onSwitchLayout = { viewModel.setTemplateSelectorVisible(true) },
+                        modifier = Modifier.testTag("editor_switch_ats_layout_banner")
+                    )
+                }
+
                 items(sectionsMeta, key = { it.key }) { meta ->
                     val isEnabled = resume.sectionVisibility[meta.key] ?: true
                     val completed = meta.isCompleted(resume)
@@ -278,5 +289,14 @@ fun ResumeEditorScreen(
                 }
             }
         }
+    }
+
+    if (uiState.showTemplateSelector && resume != null) {
+        AtsTemplateSelectorModalSheet(
+            templates = uiState.allTemplates,
+            selectedTemplateId = resume.templateId,
+            onSelectTemplate = { viewModel.selectTemplate(it) },
+            onDismiss = { viewModel.setTemplateSelectorVisible(false) }
+        )
     }
 }

@@ -13,12 +13,19 @@ android {
   namespace = "com.example"
   compileSdk { version = release(36) { minorApiLevel = 1 } }
 
+  val dynamicVersionCode = System.getenv("VERSION_CODE")?.toIntOrNull()
+    ?: project.findProperty("versionCode")?.toString()?.toIntOrNull()
+    ?: 1
+  val dynamicVersionName = System.getenv("VERSION_NAME")
+    ?: project.findProperty("versionName")?.toString()
+    ?: "1.0"
+
   defaultConfig {
     applicationId = "com.saherqaid.resumecraft"
     minSdk = 24
     targetSdk = 36
-    versionCode = 1
-    versionName = "1.0"
+    versionCode = dynamicVersionCode
+    versionName = dynamicVersionName
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }

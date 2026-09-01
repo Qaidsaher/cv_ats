@@ -29,6 +29,8 @@ class TemplateRepositoryImpl(
 
     private val bundledTemplateIds = listOf(
         "ats_classic",
+        "ats_modern",
+        "ats_executive",
         "minimal_professional",
         "modern_green",
         "executive",

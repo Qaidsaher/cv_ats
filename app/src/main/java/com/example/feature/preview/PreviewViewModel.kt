@@ -20,11 +20,16 @@ data class PreviewUiState(
     val resume: Resume? = null,
     val template: TemplateSpec? = null,
     val allTemplates: List<TemplateSpec> = emptyList(),
+    val selectedAtsFilter: String = "all",
+    val showTemplateSelectorSheet: Boolean = false,
     val isExporting: Boolean = false,
     val exportedPdfFile: File? = null,
     val exportSuccessMessage: String? = null,
     val errorMessage: String? = null
-)
+) {
+    val atsFriendlyTemplates: List<TemplateSpec>
+        get() = allTemplates.filter { it.isAtsFriendly }
+}
 
 class PreviewViewModel(
     private val context: Context,
@@ -56,6 +61,14 @@ class PreviewViewModel(
                 _uiState.value = _uiState.value.copy(allTemplates = list)
             }
         }
+    }
+
+    fun setAtsFilter(filter: String) {
+        _uiState.value = _uiState.value.copy(selectedAtsFilter = filter)
+    }
+
+    fun setTemplateSelectorSheetVisible(visible: Boolean) {
+        _uiState.value = _uiState.value.copy(showTemplateSelectorSheet = visible)
     }
 
     fun changeTemplate(templateId: String) {

@@ -160,7 +160,7 @@ class MainActivity : ComponentActivity() {
                             factory = object : ViewModelProvider.Factory {
                                 @Suppress("UNCHECKED_CAST")
                                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                                    return ResumeEditorViewModel(resumeRepository, resumeId) as T
+                                    return ResumeEditorViewModel(resumeRepository, resumeId, templateRepository) as T
                                 }
                             }
                         )
@@ -195,7 +195,7 @@ class MainActivity : ComponentActivity() {
                             factory = object : ViewModelProvider.Factory {
                                 @Suppress("UNCHECKED_CAST")
                                 override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                                    return ResumeEditorViewModel(resumeRepository, resumeId) as T
+                                    return ResumeEditorViewModel(resumeRepository, resumeId, templateRepository) as T
                                 }
                             }
                         )

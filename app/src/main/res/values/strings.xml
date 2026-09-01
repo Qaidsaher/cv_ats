@@ -208,4 +208,20 @@
     <string name="onboarding_2_desc">Dedicated RTL templates, native Arabic typography shaping, and full ATS software compatibility.</string>
     <string name="onboarding_3_title">High Quality PDF Export &amp; Print</string>
     <string name="onboarding_3_desc">Generate vector-sharp PDFs ready for direct application to top companies worldwide.</string>
+    <!-- ATS Template Selector -->
+    <string name="ats_template_selector_title">ATS Layout Styles</string>
+    <string name="ats_template_selector_subtitle">Certified single-column layouts designed for maximum ATS parsing rate</string>
+    <string name="ats_badge_verified">100% ATS Verified</string>
+    <string name="ats_badge_single_column">Single Column</string>
+    <string name="ats_badge_high_score">99% Parse Score</string>
+    <string name="ats_filter_all">All ATS</string>
+    <string name="ats_filter_classic">Classic</string>
+    <string name="ats_filter_modern">Modern</string>
+    <string name="ats_filter_minimal">Minimal</string>
+    <string name="ats_filter_executive">Executive</string>
+    <string name="ats_filter_arabic">Arabic RTL</string>
+    <string name="ats_switch_style">Switch Layout Style</string>
+    <string name="ats_current_layout">Active ATS Layout</string>
+    <string name="ats_why_title">Why ATS-Friendly Layouts Matter?</string>
+    <string name="ats_why_desc">Applicant Tracking Systems (ATS) scan resumes linearly. Clean single-column layouts, standard section names, and high-contrast typography guarantee 100% readable text without graphic clipping.</string>
 </resources>

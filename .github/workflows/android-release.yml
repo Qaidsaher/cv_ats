@@ -1,0 +1,205 @@
+name: Build & Release Android APK
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+    inputs:
+      version_name:
+        description: 'Version Name (e.g. 1.0.1)'
+        required: false
+        default: ''
+      release_title:
+        description: 'Release Title'
+        required: false
+        default: ''
+      create_release:
+        description: 'Create GitHub Release with APK'
+        required: true
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build:
+    name: Build & Publish APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine Version
+        id: versioning
+        run: |
+          # Priority: Manual input -> Git Tag -> Auto-increment run number
+          if [ -n "${{ github.event.inputs.version_name }}" ]; then
+            VERSION_NAME="${{ github.event.inputs.version_name }}"
+            TAG_NAME="v${VERSION_NAME}"
+          elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            TAG_NAME="${GITHUB_REF#refs/tags/}"
+            VERSION_NAME="${TAG_NAME#v}"
+          else
+            VERSION_NAME="1.0.${{ github.run_number }}"
+            TAG_NAME="v${VERSION_NAME}"
+          fi
+          
+          # Version code (integer for Android package manager)
+          VERSION_CODE="${{ github.run_number }}"
+          if [ -z "$VERSION_CODE" ] || [ "$VERSION_CODE" -eq 0 ]; then
+            VERSION_CODE=1
+          fi
+
+          echo "VERSION_NAME=${VERSION_NAME}" >> $GITHUB_ENV
+          echo "VERSION_CODE=${VERSION_CODE}" >> $GITHUB_ENV
+          echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_ENV
+          echo "Calculated Version: ${VERSION_NAME} (code: ${VERSION_CODE}, tag: ${TAG_NAME})"
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Prepare Signing Keystore
+        id: prepare_keystore
+        run: |
+          KEYSTORE_FILE="${GITHUB_WORKSPACE}/my-upload-key.jks"
+          
+          if [ -n "${{ secrets.KEYSTORE_BASE64 }}" ]; then
+            echo "Using production keystore from repository secrets."
+            echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > "$KEYSTORE_FILE"
+            echo "STORE_PASSWORD=${{ secrets.STORE_PASSWORD }}" >> $GITHUB_ENV
+            echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
+            echo "KEYSTORE_PATH=${KEYSTORE_FILE}" >> $GITHUB_ENV
+          else
+            echo "Generating automated release build keystore..."
+            keytool -genkeypair \
+              -v \
+              -keystore "$KEYSTORE_FILE" \
+              -alias upload \
+              -keyalg RSA \
+              -keysize 2048 \
+              -validity 10000 \
+              -storepass androidrelease \
+              -keypass androidrelease \
+              -dname "CN=ResumeCraft, OU=Android, O=ResumeCraft, L=Global, S=Global, C=US"
+            
+            echo "STORE_PASSWORD=androidrelease" >> $GITHUB_ENV
+            echo "KEY_PASSWORD=androidrelease" >> $GITHUB_ENV
+            echo "KEYSTORE_PATH=${KEYSTORE_FILE}" >> $GITHUB_ENV
+          fi
+
+      - name: Create local dummy secrets if missing
+        run: |
+          if [ ! -f "secrets.properties" ]; then
+            touch secrets.properties
+          fi
+          if [ ! -f ".env" ]; then
+            touch .env
+          fi
+
+      - name: Ensure Gradle Wrapper Executable
+        run: |
+          if [ -f "./gradlew" ]; then
+            chmod +x ./gradlew
+          else
+            gradle wrapper
+            chmod +x ./gradlew
+          fi
+
+      - name: Build APKs (Release & Debug)
+        env:
+          VERSION_NAME: ${{ env.VERSION_NAME }}
+          VERSION_CODE: ${{ env.VERSION_CODE }}
+          KEYSTORE_PATH: ${{ env.KEYSTORE_PATH }}
+          STORE_PASSWORD: ${{ env.STORE_PASSWORD }}
+          KEY_PASSWORD: ${{ env.KEY_PASSWORD }}
+        run: |
+          ./gradlew :app:assembleRelease :app:assembleDebug --stacktrace
+
+      - name: Prepare and Rename APK Outputs
+        run: |
+          mkdir -p build_outputs
+          
+          # Find and copy release APK
+          RELEASE_APK=$(find app/build/outputs/apk/release -name "*.apk" | head -n 1)
+          if [ -n "$RELEASE_APK" ] && [ -f "$RELEASE_APK" ]; then
+            cp "$RELEASE_APK" "build_outputs/ResumeCraft-${{ env.TAG_NAME }}-release.apk"
+            echo "Found Release APK: build_outputs/ResumeCraft-${{ env.TAG_NAME }}-release.apk"
+          fi
+          
+          # Find and copy debug APK
+          DEBUG_APK=$(find app/build/outputs/apk/debug -name "*.apk" | head -n 1)
+          if [ -n "$DEBUG_APK" ] && [ -f "$DEBUG_APK" ]; then
+            cp "$DEBUG_APK" "build_outputs/ResumeCraft-${{ env.TAG_NAME }}-debug.apk"
+            echo "Found Debug APK: build_outputs/ResumeCraft-${{ env.TAG_NAME }}-debug.apk"
+          fi
+          
+          # Universal copy for direct installation
+          if [ -f "build_outputs/ResumeCraft-${{ env.TAG_NAME }}-release.apk" ]; then
+            cp "build_outputs/ResumeCraft-${{ env.TAG_NAME }}-release.apk" "build_outputs/ResumeCraft-${{ env.TAG_NAME }}.apk"
+          fi
+          
+          # Compute SHA256 Checksums
+          cd build_outputs
+          sha256sum *.apk > checksums.sha256
+          cat checksums.sha256
+          cd ..
+
+      - name: Upload APKs as Workflow Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ResumeCraft-${{ env.TAG_NAME }}-APKs
+          path: build_outputs/
+          retention-days: 30
+
+      - name: Publish GitHub Release
+        if: ${{ (github.event_name == 'push' && (startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')) || (github.event_name == 'workflow_dispatch' && github.event.inputs.create_release != 'false') }}
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          name: ${{ github.event.inputs.release_title || format('ResumeCraft {0}', env.TAG_NAME) }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            build_outputs/*.apk
+            build_outputs/checksums.sha256
+          body: |
+            ## 📱 ResumeCraft Android App - Direct Download & Install
+            
+            Download the APK file below directly onto your Android device to install and use the app.
+            
+            ### ⬇️ Download Links
+            - **[Direct Install APK (Release)](${{ github.server_url }}/${{ github.repository }}/releases/download/${{ env.TAG_NAME }}/ResumeCraft-${{ env.TAG_NAME }}.apk)** *(Recommended)*
+            - **[Standard Release APK](${{ github.server_url }}/${{ github.repository }}/releases/download/${{ env.TAG_NAME }}/ResumeCraft-${{ env.TAG_NAME }}-release.apk)**
+            - **[Debug APK](${{ github.server_url }}/${{ github.repository }}/releases/download/${{ env.TAG_NAME }}/ResumeCraft-${{ env.TAG_NAME }}-debug.apk)**
+            
+            ### 💡 Installation Instructions
+            1. Download `ResumeCraft-${{ env.TAG_NAME }}.apk` to your Android device.
+            2. Open the downloaded file from your browser downloads or Files app.
+            3. If prompted, allow **"Install from unknown sources"** for your browser/file manager.
+            4. Tap **Install** and open **ResumeCraft**!
+            
+            ---
+            *Built automatically via GitHub Actions (Build #${{ github.run_number }})*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

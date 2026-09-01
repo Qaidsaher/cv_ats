@@ -69,6 +69,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.R
 import com.example.core.designsystem.components.AppTopBar
 import com.example.core.templates.ResumeDocumentPreview
+import com.example.feature.templates.AtsTemplateSelectorBar
+import com.example.feature.templates.AtsTemplateSelectorModalSheet
 
 val COLOR_PALETTES = listOf(
     "#1F6F5C" to "Emerald",
@@ -130,26 +132,13 @@ fun CvPreviewScreen(
                     color = MaterialTheme.colorScheme.surface
                 ) {
                     Column(modifier = Modifier.fillMaxWidth()) {
-                        // Horizontal template switcher
-                        LazyRow(
-                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            items(uiState.allTemplates) { t ->
-                                val isSelected = t.id == resume.templateId
-                                FilterChip(
-                                    selected = isSelected,
-                                    onClick = { viewModel.changeTemplate(t.id) },
-                                    label = { Text(t.name, fontSize = 12.sp, fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal) },
-                                    shape = RoundedCornerShape(12.dp),
-                                    colors = FilterChipDefaults.filterChipColors(
-                                        selectedContainerColor = MaterialTheme.colorScheme.primary,
-                                        selectedLabelColor = MaterialTheme.colorScheme.onPrimary
-                                    )
-                                )
-                            }
-                        }
+                        // Rich ATS template switcher bar
+                        AtsTemplateSelectorBar(
+                            templates = uiState.allTemplates,
+                            selectedTemplateId = resume.templateId,
+                            onSelectTemplate = { viewModel.changeTemplate(it) },
+                            onOpenFullSelector = { viewModel.setTemplateSelectorSheetVisible(true) }
+                        )
 
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -397,5 +386,14 @@ fun CvPreviewScreen(
                 Spacer(modifier = Modifier.height(24.dp))
             }
         }
+    }
+
+    if (uiState.showTemplateSelectorSheet && resume != null) {
+        AtsTemplateSelectorModalSheet(
+            templates = uiState.allTemplates,
+            selectedTemplateId = resume.templateId,
+            onSelectTemplate = { viewModel.changeTemplate(it) },
+            onDismiss = { viewModel.setTemplateSelectorSheetVisible(false) }
+        )
     }
 }

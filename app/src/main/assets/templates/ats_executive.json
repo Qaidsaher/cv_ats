@@ -1,0 +1,68 @@
+{
+  "id": "ats_executive",
+  "version": 1,
+  "schemaVersion": 1,
+  "name": "ATS Executive",
+  "description": "Distinguished single-column ATS layout featuring classic serif headings, gold accent borders, and structured leadership timelines.",
+  "isPremium": false,
+  "isAtsFriendly": true,
+  "category": "ats",
+  "supportedLanguages": ["en", "ar"],
+  "supportsRtl": true,
+  "page": {
+    "size": "A4",
+    "marginTop": 24,
+    "marginBottom": 24,
+    "marginStart": 28,
+    "marginEnd": 28
+  },
+  "layout": {
+    "type": "single_column",
+    "sidebarPosition": "none",
+    "sidebarWidth": 0.0,
+    "headerStyle": "centered_clean",
+    "sectionHeaderStyle": "gold_border"
+  },
+  "colors": {
+    "primary": "#1E293B",
+    "secondary": "#475569",
+    "accent": "#B45309",
+    "background": "#FFFFFF",
+    "sidebar": "#FFFFFF",
+    "textPrimary": "#0F172A",
+    "textSecondary": "#334155"
+  },
+  "typography": {
+    "fontFamily": "serif",
+    "nameSize": 24,
+    "titleSize": 13.5,
+    "sectionTitleSize": 12.5,
+    "bodySize": 9.5,
+    "captionSize": 8
+  },
+  "photo": {
+    "enabled": false,
+    "shape": "none",
+    "size": 0
+  },
+  "sections": [
+    "personal",
+    "summary",
+    "experience",
+    "education",
+    "skills",
+    "projects",
+    "certificates",
+    "languages",
+    "references"
+  ],
+  "customizable": {
+    "primaryColor": true,
+    "secondaryColor": true,
+    "fontFamily": true,
+    "fontSize": true,
+    "spacing": true,
+    "showPhoto": false,
+    "pageFormat": true
+  }
+}
