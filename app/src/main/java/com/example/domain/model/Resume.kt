@@ -94,8 +94,38 @@ data class Experience(
     val endDate: String = "",
     val currentlyWorking: Boolean = false,
     val description: String = "",
+    val bullets: List<String> = emptyList(),
     val sortOrder: Int = 0
-)
+) {
+    /**
+     * Resolves all bullet points for this experience role.
+     * If explicit bullets list is populated, uses that.
+     * Otherwise splits description by newlines/bullet markers.
+     */
+    val effectiveBullets: List<String>
+        get() {
+            if (bullets.isNotEmpty()) {
+                return bullets.map { it.trim() }.filter { it.isNotBlank() }
+            }
+            if (description.isBlank()) return emptyList()
+            return description.lines()
+                .map { line ->
+                    line.trim()
+                        .removePrefix("•")
+                        .removePrefix("-")
+                        .removePrefix("*")
+                        .trim()
+                }
+                .filter { it.isNotBlank() }
+        }
+
+    val formattedDateRange: String
+        get() {
+            val end = if (currentlyWorking) "Present" else endDate.ifBlank { "Present" }
+            val start = startDate.ifBlank { "" }
+            return if (start.isNotBlank()) "$start – $end" else end
+        }
+}
 
 @JsonClass(generateAdapter = true)
 data class Education(
@@ -116,6 +146,7 @@ data class Skill(
     val id: String = UUID.randomUUID().toString(),
     val name: String = "",
     val level: String = "Advanced", // Beginner, Intermediate, Advanced, Expert
+    val category: String = "Technical", // Technical, Soft Skills, Tools & Frameworks, Languages, Leadership & Management, etc.
     val sortOrder: Int = 0
 )
 

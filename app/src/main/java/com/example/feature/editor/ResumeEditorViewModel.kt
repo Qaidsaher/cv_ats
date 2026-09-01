@@ -2,6 +2,10 @@ package com.example.feature.editor
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.analysis.AnalysisReport
+import com.example.core.analysis.IssueType
+import com.example.core.analysis.TextAnalysisEngine
+import com.example.core.analysis.TextIssue
 import com.example.data.repository.ResumeRepository
 import com.example.data.repository.TemplateRepository
 import com.example.domain.model.Certificate
@@ -27,11 +31,26 @@ data class EditorUiState(
     val template: TemplateSpec? = null,
     val allTemplates: List<TemplateSpec> = emptyList(),
     val showTemplateSelector: Boolean = false,
+    val showAnalysisSheet: Boolean = false,
+    val analysisReport: AnalysisReport = AnalysisReport(0, emptyList(), emptyList(), emptyList(), emptyList(), 100, 0, 0, 0),
+    val dismissedIssueIds: Set<String> = emptySet(),
     val isLoading: Boolean = true,
     val isSaving: Boolean = false,
     val hasSaved: Boolean = false,
     val errorMessage: String? = null
-)
+) {
+    val activeIssues: List<TextIssue>
+        get() = analysisReport.issues.filter { it.id !in dismissedIssueIds }
+    
+    val activeSpellingIssues: List<TextIssue>
+        get() = analysisReport.spellingIssues.filter { it.id !in dismissedIssueIds }
+
+    val activeGrammarIssues: List<TextIssue>
+        get() = analysisReport.grammarIssues.filter { it.id !in dismissedIssueIds }
+
+    val activeStyleIssues: List<TextIssue>
+        get() = analysisReport.styleIssues.filter { it.id !in dismissedIssueIds }
+}
 
 class ResumeEditorViewModel(
     private val resumeRepository: ResumeRepository,
@@ -55,9 +74,11 @@ class ResumeEditorViewModel(
             val res = resumeRepository.getResumeByIdDirect(resumeId)
             if (res != null) {
                 val currentTemplate = templateRepository?.getTemplateById(res.templateId)
+                val report = TextAnalysisEngine.analyzeResume(res)
                 _uiState.value = _uiState.value.copy(
                     resume = res,
                     template = currentTemplate,
+                    analysisReport = report,
                     isLoading = false
                 )
             } else {
@@ -89,6 +110,190 @@ class ResumeEditorViewModel(
 
     fun setTemplateSelectorVisible(visible: Boolean) {
         _uiState.value = _uiState.value.copy(showTemplateSelector = visible)
+    }
+
+    fun setAnalysisSheetVisible(visible: Boolean) {
+        _uiState.value = _uiState.value.copy(showAnalysisSheet = visible)
+    }
+
+    fun dismissIssue(issueId: String) {
+        _uiState.value = _uiState.value.copy(
+            dismissedIssueIds = _uiState.value.dismissedIssueIds + issueId
+        )
+    }
+
+    fun applyIssueFix(issue: TextIssue) {
+        val current = _uiState.value.resume ?: return
+        pushUndoState(current)
+
+        val updatedResume = when (issue.sectionKey) {
+            "personal" -> {
+                val pi = current.personalInfo
+                val updatedPi = when (issue.targetField) {
+                    "professionalTitle" -> pi.copy(professionalTitle = replaceInText(pi.professionalTitle, issue.originalText, issue.suggestedText))
+                    "address" -> pi.copy(address = replaceInText(pi.address, issue.originalText, issue.suggestedText))
+                    else -> pi
+                }
+                current.copy(personalInfo = updatedPi)
+            }
+            "summary" -> {
+                current.copy(summary = replaceInText(current.summary, issue.originalText, issue.suggestedText))
+            }
+            "experience" -> {
+                val updatedExps = current.experiences.map { exp ->
+                    if (exp.id == issue.targetId) {
+                        when (issue.targetField) {
+                            "jobTitle" -> exp.copy(jobTitle = replaceInText(exp.jobTitle, issue.originalText, issue.suggestedText))
+                            "description" -> exp.copy(description = replaceInText(exp.description, issue.originalText, issue.suggestedText))
+                            else -> exp
+                        }
+                    } else exp
+                }
+                current.copy(experiences = updatedExps)
+            }
+            "education" -> {
+                val updatedEdus = current.educations.map { edu ->
+                    if (edu.id == issue.targetId) {
+                        when (issue.targetField) {
+                            "degree" -> edu.copy(degree = replaceInText(edu.degree, issue.originalText, issue.suggestedText))
+                            "fieldOfStudy" -> edu.copy(fieldOfStudy = replaceInText(edu.fieldOfStudy, issue.originalText, issue.suggestedText))
+                            "description" -> edu.copy(description = replaceInText(edu.description, issue.originalText, issue.suggestedText))
+                            else -> edu
+                        }
+                    } else edu
+                }
+                current.copy(educations = updatedEdus)
+            }
+            "projects" -> {
+                val updatedProjs = current.projects.map { proj ->
+                    if (proj.id == issue.targetId) {
+                        when (issue.targetField) {
+                            "name" -> proj.copy(name = replaceInText(proj.name, issue.originalText, issue.suggestedText))
+                            "role" -> proj.copy(role = replaceInText(proj.role, issue.originalText, issue.suggestedText))
+                            "description" -> proj.copy(description = replaceInText(proj.description, issue.originalText, issue.suggestedText))
+                            else -> proj
+                        }
+                    } else proj
+                }
+                current.copy(projects = updatedProjs)
+            }
+            "custom" -> {
+                val updatedCustom = current.customSections.map { cs ->
+                    val updatedItems = cs.items.map { item ->
+                        if (item.id == issue.targetId) {
+                            when (issue.targetField) {
+                                "title" -> item.copy(title = replaceInText(item.title, issue.originalText, issue.suggestedText))
+                                "subtitle" -> item.copy(subtitle = replaceInText(item.subtitle, issue.originalText, issue.suggestedText))
+                                "description" -> item.copy(description = replaceInText(item.description, issue.originalText, issue.suggestedText))
+                                else -> item
+                            }
+                        } else item
+                    }
+                    cs.copy(items = updatedItems)
+                }
+                current.copy(customSections = updatedCustom)
+            }
+            else -> current
+        }
+
+        val newReport = TextAnalysisEngine.analyzeResume(updatedResume)
+        _uiState.value = _uiState.value.copy(
+            resume = updatedResume,
+            analysisReport = newReport
+        )
+        scheduleAutoSave(updatedResume)
+    }
+
+    fun applyAllSpellingFixes() {
+        val current = _uiState.value.resume ?: return
+        val spellingIssues = _uiState.value.activeSpellingIssues
+        if (spellingIssues.isEmpty()) return
+
+        pushUndoState(current)
+        var updatedResume = current
+
+        spellingIssues.forEach { issue ->
+            updatedResume = when (issue.sectionKey) {
+                "personal" -> {
+                    val pi = updatedResume.personalInfo
+                    val updatedPi = when (issue.targetField) {
+                        "professionalTitle" -> pi.copy(professionalTitle = replaceInText(pi.professionalTitle, issue.originalText, issue.suggestedText))
+                        "address" -> pi.copy(address = replaceInText(pi.address, issue.originalText, issue.suggestedText))
+                        else -> pi
+                    }
+                    updatedResume.copy(personalInfo = updatedPi)
+                }
+                "summary" -> {
+                    updatedResume.copy(summary = replaceInText(updatedResume.summary, issue.originalText, issue.suggestedText))
+                }
+                "experience" -> {
+                    val updatedExps = updatedResume.experiences.map { exp ->
+                        if (exp.id == issue.targetId) {
+                            when (issue.targetField) {
+                                "jobTitle" -> exp.copy(jobTitle = replaceInText(exp.jobTitle, issue.originalText, issue.suggestedText))
+                                "description" -> exp.copy(description = replaceInText(exp.description, issue.originalText, issue.suggestedText))
+                                else -> exp
+                            }
+                        } else exp
+                    }
+                    updatedResume.copy(experiences = updatedExps)
+                }
+                "education" -> {
+                    val updatedEdus = updatedResume.educations.map { edu ->
+                        if (edu.id == issue.targetId) {
+                            when (issue.targetField) {
+                                "degree" -> edu.copy(degree = replaceInText(edu.degree, issue.originalText, issue.suggestedText))
+                                "fieldOfStudy" -> edu.copy(fieldOfStudy = replaceInText(edu.fieldOfStudy, issue.originalText, issue.suggestedText))
+                                "description" -> edu.copy(description = replaceInText(edu.description, issue.originalText, issue.suggestedText))
+                                else -> edu
+                            }
+                        } else edu
+                    }
+                    updatedResume.copy(educations = updatedEdus)
+                }
+                "projects" -> {
+                    val updatedProjs = updatedResume.projects.map { proj ->
+                        if (proj.id == issue.targetId) {
+                            when (issue.targetField) {
+                                "name" -> proj.copy(name = replaceInText(proj.name, issue.originalText, issue.suggestedText))
+                                "role" -> proj.copy(role = replaceInText(proj.role, issue.originalText, issue.suggestedText))
+                                "description" -> proj.copy(description = replaceInText(proj.description, issue.originalText, issue.suggestedText))
+                                else -> proj
+                            }
+                        } else proj
+                    }
+                    updatedResume.copy(projects = updatedProjs)
+                }
+                "custom" -> {
+                    val updatedCustom = updatedResume.customSections.map { cs ->
+                        val updatedItems = cs.items.map { item ->
+                            if (item.id == issue.targetId) {
+                                when (issue.targetField) {
+                                    "title" -> item.copy(title = replaceInText(item.title, issue.originalText, issue.suggestedText))
+                                    "subtitle" -> item.copy(subtitle = replaceInText(item.subtitle, issue.originalText, issue.suggestedText))
+                                    "description" -> item.copy(description = replaceInText(item.description, issue.originalText, issue.suggestedText))
+                                    else -> item
+                                }
+                            } else item
+                        }
+                        cs.copy(items = updatedItems)
+                    }
+                    updatedResume.copy(customSections = updatedCustom)
+                }
+                else -> updatedResume
+            }
+        }
+
+        val newReport = TextAnalysisEngine.analyzeResume(updatedResume)
+        _uiState.value = _uiState.value.copy(
+            resume = updatedResume,
+            analysisReport = newReport
+        )
+        scheduleAutoSave(updatedResume)
+    }
+
+    private fun replaceInText(target: String, original: String, replacement: String): String {
+        return target.replace(original, replacement)
     }
 
     private fun pushUndoState(current: Resume) {

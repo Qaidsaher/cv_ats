@@ -66,8 +66,9 @@ class MainActivity : ComponentActivity() {
         val database = ResumeDatabase.getInstance(applicationContext)
         val resumeDao = database.resumeDao()
         val templateCacheDao = database.templateCacheDao()
+        val skillDao = database.skillDao()
 
-        val resumeRepository = ResumeRepositoryImpl(resumeDao)
+        val resumeRepository = ResumeRepositoryImpl(resumeDao, skillDao)
         val templateRepository = TemplateRepositoryImpl(applicationContext, templateCacheDao)
         val preferencesRepository = UserPreferencesRepository(applicationContext)
         val billingManager = BillingManager(applicationContext, preferencesRepository, appScope)

@@ -29,6 +29,7 @@ import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.ShortText
+import androidx.compose.material.icons.filled.Spellcheck
 import androidx.compose.material.icons.filled.Undo
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.Button
@@ -171,6 +172,16 @@ fun ResumeEditorScreen(
                 hasSaved = uiState.hasSaved,
                 actions = {
                     IconButton(
+                        onClick = { viewModel.setAnalysisSheetVisible(true) },
+                        modifier = Modifier.testTag("editor_text_analysis_button")
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Spellcheck,
+                            contentDescription = "Text Analysis & Grammar",
+                            tint = if (uiState.activeIssues.isNotEmpty()) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    IconButton(
                         onClick = { viewModel.undo() },
                         modifier = Modifier.testTag("editor_undo_button")
                     ) {
@@ -258,6 +269,16 @@ fun ResumeEditorScreen(
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
+                // Resume Text Quality & Grammar Health Card
+                item(key = "resume_health_card") {
+                    ResumeTextHealthCard(
+                        report = uiState.analysisReport,
+                        activeIssuesCount = uiState.activeIssues.size,
+                        onOpenAnalysis = { viewModel.setAnalysisSheetVisible(true) },
+                        onFixAllSpelling = { viewModel.applyAllSpellingFixes() }
+                    )
+                }
+
                 // Active ATS layout switcher banner
                 item(key = "ats_layout_banner") {
                     AtsActiveLayoutBanner(
@@ -297,6 +318,17 @@ fun ResumeEditorScreen(
             selectedTemplateId = resume.templateId,
             onSelectTemplate = { viewModel.selectTemplate(it) },
             onDismiss = { viewModel.setTemplateSelectorVisible(false) }
+        )
+    }
+
+    if (uiState.showAnalysisSheet && resume != null) {
+        TextAnalysisModalSheet(
+            report = uiState.analysisReport,
+            activeIssues = uiState.activeIssues,
+            onDismissRequest = { viewModel.setAnalysisSheetVisible(false) },
+            onApplyFix = { viewModel.applyIssueFix(it) },
+            onApplyAllSpellingFixes = { viewModel.applyAllSpellingFixes() },
+            onDismissIssue = { viewModel.dismissIssue(it) }
         )
     }
 }

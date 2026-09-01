@@ -349,6 +349,13 @@ fun SummaryEditorScreen(
                 testTag = "input_summary"
             )
 
+            InlineTextAnalysisHelper(
+                text = summary,
+                onApplySuggestion = { original, replacement ->
+                    viewModel.updateSummary(summary.replace(original, replacement))
+                }
+            )
+
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
@@ -370,9 +377,6 @@ fun ExperienceEditorScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val experiences = uiState.resume?.experiences ?: emptyList()
 
-    var editingExperience by remember { mutableStateOf<Experience?>(null) }
-    var isNewExperience by remember { mutableStateOf(false) }
-
     Scaffold(
         topBar = {
             AppTopBar(
@@ -382,222 +386,21 @@ fun ExperienceEditorScreen(
                 hasSaved = uiState.hasSaved
             )
         },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    editingExperience = Experience(id = UUID.randomUUID().toString())
-                    isNewExperience = true
-                },
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = Color.White,
-                shape = RoundedCornerShape(16.dp),
-                modifier = Modifier.testTag("fab_add_experience")
-            ) {
-                Icon(Icons.Default.Add, contentDescription = "Add Experience")
-            }
-        },
         modifier = modifier
     ) { innerPadding ->
-        if (experiences.isEmpty()) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-            ) {
-                Text(
-                    text = "No experiences added yet. Tap + to add.",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        } else {
-            LazyColumn(
-                contentPadding = PaddingValues(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = innerPadding.calculateTopPadding() + 8.dp,
-                    bottom = innerPadding.calculateBottomPadding() + 88.dp
-                ),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(experiences, key = { it.id }) { exp ->
-                    Card(
-                        shape = RoundedCornerShape(12.dp),
-                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .border(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f), RoundedCornerShape(12.dp))
-                    ) {
-                        Column(modifier = Modifier.padding(14.dp)) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(
-                                        text = exp.jobTitle.ifBlank { "Untitled Position" },
-                                        style = MaterialTheme.typography.titleMedium,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                    Text(
-                                        text = exp.company.ifBlank { "Company Name" },
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        color = MaterialTheme.colorScheme.primary
-                                    )
-                                }
-                                Row {
-                                    IconButton(onClick = {
-                                        editingExperience = exp
-                                        isNewExperience = false
-                                    }) {
-                                        Icon(Icons.Default.Edit, contentDescription = "Edit")
-                                    }
-                                    IconButton(onClick = {
-                                        viewModel.updateExperiences(experiences.filter { it.id != exp.id })
-                                    }) {
-                                        Icon(Icons.Default.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.error)
-                                    }
-                                }
-                            }
-                            Text(
-                                text = "${exp.startDate} - ${if (exp.currentlyWorking) "Present" else exp.endDate}",
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                }
-            }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
+            WorkExperienceTimelineComponent(
+                experiences = experiences,
+                onUpdateExperiences = { viewModel.updateExperiences(it) }
+            )
         }
     }
-
-    if (editingExperience != null) {
-        ExperienceEditDialog(
-            experience = editingExperience!!,
-            onDismiss = { editingExperience = null },
-            onSave = { updated ->
-                val newList = if (isNewExperience) {
-                    experiences + updated
-                } else {
-                    experiences.map { if (it.id == updated.id) updated else it }
-                }
-                viewModel.updateExperiences(newList)
-                editingExperience = null
-            }
-        )
-    }
-}
-
-@Composable
-private fun ExperienceEditDialog(
-    experience: Experience,
-    onDismiss: () -> Unit,
-    onSave: (Experience) -> Unit
-) {
-    var jobTitle by remember { mutableStateOf(experience.jobTitle) }
-    var company by remember { mutableStateOf(experience.company) }
-    var location by remember { mutableStateOf(experience.location) }
-    var startDate by remember { mutableStateOf(experience.startDate) }
-    var endDate by remember { mutableStateOf(experience.endDate) }
-    var currentlyWorking by remember { mutableStateOf(experience.currentlyWorking) }
-    var description by remember { mutableStateOf(experience.description) }
-
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text(stringResource(R.string.editor_section_experience), fontWeight = FontWeight.Bold) },
-        text = {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(10.dp),
-                modifier = Modifier.verticalScroll(rememberScrollState())
-            ) {
-                AppTextField(
-                    value = jobTitle,
-                    onValueChange = { jobTitle = it },
-                    label = stringResource(R.string.field_job_title),
-                    testTag = "input_exp_job_title"
-                )
-                AppTextField(
-                    value = company,
-                    onValueChange = { company = it },
-                    label = stringResource(R.string.field_company),
-                    testTag = "input_exp_company"
-                )
-                AppTextField(
-                    value = location,
-                    onValueChange = { location = it },
-                    label = stringResource(R.string.field_location),
-                    testTag = "input_exp_location"
-                )
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    AppTextField(
-                        value = startDate,
-                        onValueChange = { startDate = it },
-                        label = stringResource(R.string.field_start_date),
-                        placeholder = "2021-03",
-                        modifier = Modifier.weight(1f),
-                        testTag = "input_exp_start_date"
-                    )
-                    if (!currentlyWorking) {
-                        AppTextField(
-                            value = endDate,
-                            onValueChange = { endDate = it },
-                            label = stringResource(R.string.field_end_date),
-                            placeholder = "2023-08",
-                            modifier = Modifier.weight(1f),
-                            testTag = "input_exp_end_date"
-                        )
-                    }
-                }
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.clickable { currentlyWorking = !currentlyWorking }
-                ) {
-                    Checkbox(
-                        checked = currentlyWorking,
-                        onCheckedChange = { currentlyWorking = it }
-                    )
-                    Text(stringResource(R.string.field_currently_working))
-                }
-                AppTextField(
-                    value = description,
-                    onValueChange = { description = it },
-                    label = stringResource(R.string.field_description),
-                    singleLine = false,
-                    minLines = 4,
-                    testTag = "input_exp_description"
-                )
-            }
-        },
-        confirmButton = {
-            Button(
-                onClick = {
-                    onSave(
-                        experience.copy(
-                            jobTitle = jobTitle,
-                            company = company,
-                            location = location,
-                            startDate = startDate,
-                            endDate = if (currentlyWorking) "" else endDate,
-                            currentlyWorking = currentlyWorking,
-                            description = description
-                        )
-                    )
-                },
-                modifier = Modifier.testTag("save_experience_button")
-            ) {
-                Text(stringResource(R.string.action_save))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.action_cancel))
-            }
-        }
-    )
 }
 
 @Composable
@@ -816,6 +619,13 @@ private fun EducationEditDialog(
                     minLines = 3,
                     testTag = "input_edu_description"
                 )
+
+                InlineTextAnalysisHelper(
+                    text = description,
+                    onApplySuggestion = { original, replacement ->
+                        description = description.replace(original, replacement)
+                    }
+                )
             }
         },
         confirmButton = {
@@ -856,14 +666,10 @@ fun SkillsEditorScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val skills = uiState.resume?.skills ?: emptyList()
 
-    var newSkillName by remember { mutableStateOf("") }
-    var selectedLevel by remember { mutableStateOf("Advanced") }
-    val levels = listOf("Beginner", "Intermediate", "Advanced", "Expert")
-
     Scaffold(
         topBar = {
             AppTopBar(
-                title = stringResource(R.string.editor_section_skills),
+                title = stringResource(R.string.skills_dynamic_title),
                 onBackClick = onNavigateBack,
                 isSaving = uiState.isSaving,
                 hasSaved = uiState.hasSaved
@@ -875,112 +681,13 @@ fun SkillsEditorScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(16.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .verticalScroll(rememberScrollState())
         ) {
-            // Add Skill Input Row
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                AppTextField(
-                    value = newSkillName,
-                    onValueChange = { newSkillName = it },
-                    label = stringResource(R.string.field_skill_name),
-                    placeholder = "e.g. Kotlin, Project Management",
-                    modifier = Modifier.weight(1f),
-                    testTag = "input_new_skill_name"
-                )
-                Button(
-                    onClick = {
-                        if (newSkillName.isNotBlank()) {
-                            val newSkill = Skill(
-                                id = UUID.randomUUID().toString(),
-                                name = newSkillName.trim(),
-                                level = selectedLevel
-                            )
-                            viewModel.updateSkills(skills + newSkill)
-                            newSkillName = ""
-                        }
-                    },
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier
-                        .height(56.dp)
-                        .testTag("button_add_skill")
-                ) {
-                    Icon(Icons.Default.Add, contentDescription = null)
-                }
-            }
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            // Proficiency level selector chips
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                levels.forEach { level ->
-                    FilterChip(
-                        selected = selectedLevel == level,
-                        onClick = { selectedLevel = level },
-                        label = { Text(level, fontSize = 12.sp) },
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "${skills.size} skills added",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+            DynamicSkillsSectionComponent(
+                skills = skills,
+                onUpdateSkills = { viewModel.updateSkills(it) }
             )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(skills, key = { it.id }) { skill ->
-                    Surface(
-                        shape = RoundedCornerShape(10.dp),
-                        color = MaterialTheme.colorScheme.surface,
-                        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.2f)),
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp)
-                        ) {
-                            Column {
-                                Text(
-                                    text = skill.name,
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    fontWeight = FontWeight.SemiBold
-                                )
-                                Text(
-                                    text = skill.level,
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                            }
-                            IconButton(onClick = {
-                                viewModel.updateSkills(skills.filter { it.id != skill.id })
-                            }) {
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = "Delete",
-                                    tint = MaterialTheme.colorScheme.error,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }
@@ -1251,6 +958,12 @@ fun ProjectsEditorScreen(
                     AppTextField(value = technologies, onValueChange = { technologies = it }, label = stringResource(R.string.field_technologies))
                     AppTextField(value = url, onValueChange = { url = it }, label = stringResource(R.string.field_project_url))
                     AppTextField(value = description, onValueChange = { description = it }, label = stringResource(R.string.field_description), singleLine = false, minLines = 3)
+                    InlineTextAnalysisHelper(
+                        text = description,
+                        onApplySuggestion = { original, replacement ->
+                            description = description.replace(original, replacement)
+                        }
+                    )
                 }
             },
             confirmButton = {

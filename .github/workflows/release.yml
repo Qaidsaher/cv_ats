@@ -1,0 +1,82 @@
+name: Build & Publish Android APK Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: 🚀 Build APK & Publish Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: ☕ Set up Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: 📱 Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: 🔧 Grant Execute Permissions for Gradlew
+        run: chmod +x ./gradlew || true
+
+      - name: 🔨 Build APK with Gradle
+        run: ./gradlew assembleDebug --stacktrace --no-daemon
+
+      - name: 📦 Locate & Prepare APK
+        id: prepare_apk
+        run: |
+          APK_PATH=$(find app/build/outputs/apk/debug/ -name "*.apk" | head -n 1)
+          if [ -z "$APK_PATH" ]; then
+            APK_PATH=$(find . -name "*.apk" | head -n 1)
+          fi
+          echo "Found APK at: $APK_PATH"
+          TAG_NAME=${GITHUB_REF_NAME:-"v1.0.0"}
+          OUTPUT_NAME="ResumeCraft-${TAG_NAME}.apk"
+          cp "$APK_PATH" "./$OUTPUT_NAME"
+          echo "apk_path=./$OUTPUT_NAME" >> $GITHUB_OUTPUT
+          echo "apk_name=$OUTPUT_NAME" >> $GITHUB_OUTPUT
+
+      - name: 📤 Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.prepare_apk.outputs.apk_name }}
+          path: ${{ steps.prepare_apk.outputs.apk_path }}
+          retention-days: 30
+
+      - name: 🏷️ Create GitHub Release & Upload APK
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
+        with:
+          name: "Release ${{ github.ref_name }}"
+          tag_name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          files: ${{ steps.prepare_apk.outputs.apk_path }}
+          body: |
+            ## 📱 ResumeCraft APK Release - ${{ github.ref_name }}
+
+            ### 🚀 Direct Download & Install
+            Click the download link below to download the Android APK and install it directly onto your Android device:
+
+            - [📥 **Download ${{ steps.prepare_apk.outputs.apk_name }}**](${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/${{ steps.prepare_apk.outputs.apk_name }})
+
+            ---
+            ### ✨ Included Features
+            - **Dynamic Skills Section**: Add, categorize (Technical, Soft Skills, Tools & Frameworks, etc.), filter, and manage skills with proficiency levels.
+            - **Work Experience Timeline**: Interactive chronological career timeline with date ranges, duration badges, and structured bulleted responsibilities.
+            - **Real-Time Grammar & Spell Checker**: In-app proactive text analysis highlighting spelling errors, passive voice, and wordy phrases with one-tap suggestions.
+            - **Dual-Write Architecture**: Synchronized Room Database with dedicated `SkillEntity` querying alongside full resume documents.

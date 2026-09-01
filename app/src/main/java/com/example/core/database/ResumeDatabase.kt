@@ -6,14 +6,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [ResumeEntity::class, TemplateCacheEntity::class],
-    version = 1,
+    entities = [ResumeEntity::class, TemplateCacheEntity::class, SkillEntity::class],
+    version = 2,
     exportSchema = false
 )
 abstract class ResumeDatabase : RoomDatabase() {
 
     abstract fun resumeDao(): ResumeDao
     abstract fun templateCacheDao(): TemplateCacheDao
+    abstract fun skillDao(): SkillDao
 
     companion object {
         @Volatile

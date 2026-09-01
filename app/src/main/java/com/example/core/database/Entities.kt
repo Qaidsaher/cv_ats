@@ -29,3 +29,20 @@ data class TemplateCacheEntity(
     val templateJson: String,
     val updatedAt: Long = System.currentTimeMillis()
 )
+
+@Entity(
+    tableName = "skills",
+    indices = [
+        androidx.room.Index(value = ["resumeId"]),
+        androidx.room.Index(value = ["category"])
+    ]
+)
+data class SkillEntity(
+    @PrimaryKey
+    val id: String,
+    val resumeId: String,
+    val name: String,
+    val category: String = "Technical",
+    val level: String = "Advanced",
+    val sortOrder: Int = 0
+)

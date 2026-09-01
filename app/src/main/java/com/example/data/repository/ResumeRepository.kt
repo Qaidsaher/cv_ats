@@ -3,7 +3,10 @@ package com.example.data.repository
 import com.example.core.common.JsonParser
 import com.example.core.database.ResumeDao
 import com.example.core.database.ResumeEntity
+import com.example.core.database.SkillDao
+import com.example.core.database.SkillEntity
 import com.example.domain.model.Resume
+import com.example.domain.model.Skill
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.util.UUID
@@ -17,10 +20,14 @@ interface ResumeRepository {
     suspend fun duplicateResume(id: String): String?
     suspend fun renameResume(id: String, newTitle: String)
     suspend fun updateTemplate(id: String, templateId: String)
+    fun getSkillsForResume(resumeId: String): Flow<List<Skill>>
+    suspend fun saveSkill(resumeId: String, skill: Skill)
+    suspend fun deleteSkill(skillId: String)
 }
 
 class ResumeRepositoryImpl(
-    private val resumeDao: ResumeDao
+    private val resumeDao: ResumeDao,
+    private val skillDao: SkillDao? = null
 ) : ResumeRepository {
 
     override fun getAllResumes(): Flow<List<Resume>> {
@@ -55,9 +62,28 @@ class ResumeRepositoryImpl(
             resumeJson = json
         )
         resumeDao.insertResume(entity)
+
+        // Also sync skills table in Room database
+        skillDao?.let { dao ->
+            dao.deleteSkillsForResume(resume.id)
+            if (updatedResume.skills.isNotEmpty()) {
+                val skillEntities = updatedResume.skills.mapIndexed { index, s ->
+                    SkillEntity(
+                        id = s.id,
+                        resumeId = updatedResume.id,
+                        name = s.name,
+                        category = s.category,
+                        level = s.level,
+                        sortOrder = if (s.sortOrder != 0) s.sortOrder else index
+                    )
+                }
+                dao.insertSkills(skillEntities)
+            }
+        }
     }
 
     override suspend fun deleteResume(id: String) {
+        skillDao?.deleteSkillsForResume(id)
         resumeDao.deleteResumeById(id)
     }
 
@@ -84,5 +110,36 @@ class ResumeRepositoryImpl(
         val original = getResumeByIdDirect(id) ?: return
         val updated = original.copy(templateId = templateId, updatedAt = System.currentTimeMillis())
         saveResume(updated)
+    }
+
+    override fun getSkillsForResume(resumeId: String): Flow<List<Skill>> {
+        return (skillDao?.getSkillsForResume(resumeId) ?: resumeDao.getResumeByIdFlow(resumeId).map { emptyList() }).map { list ->
+            list.map { entity ->
+                Skill(
+                    id = entity.id,
+                    name = entity.name,
+                    category = entity.category,
+                    level = entity.level,
+                    sortOrder = entity.sortOrder
+                )
+            }
+        }
+    }
+
+    override suspend fun saveSkill(resumeId: String, skill: Skill) {
+        skillDao?.insertSkill(
+            SkillEntity(
+                id = skill.id,
+                resumeId = resumeId,
+                name = skill.name,
+                category = skill.category,
+                level = skill.level,
+                sortOrder = skill.sortOrder
+            )
+        )
+    }
+
+    override suspend fun deleteSkill(skillId: String) {
+        skillDao?.deleteSkillById(skillId)
     }
 }

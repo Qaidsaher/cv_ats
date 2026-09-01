@@ -224,4 +224,53 @@
     <string name="ats_current_layout">Active ATS Layout</string>
     <string name="ats_why_title">Why ATS-Friendly Layouts Matter?</string>
     <string name="ats_why_desc">Applicant Tracking Systems (ATS) scan resumes linearly. Clean single-column layouts, standard section names, and high-contrast typography guarantee 100% readable text without graphic clipping.</string>
+    <!-- Text Analysis & Grammar Checker -->
+    <string name="analysis_title">Grammar &amp; Text Analysis</string>
+    <string name="analysis_subtitle">Instant spelling, punctuation, and action verb checker</string>
+    <string name="analysis_badge_clean">Clean Resume</string>
+    <string name="analysis_badge_issues">%1$d Issues Found</string>
+    <string name="analysis_filter_all">All Issues (%1$d)</string>
+    <string name="analysis_filter_spelling">Spelling (%1$d)</string>
+    <string name="analysis_filter_grammar">Grammar (%1$d)</string>
+    <string name="analysis_filter_style">Action Verbs (%1$d)</string>
+    <string name="analysis_fix_all_spelling">Fix All Typos</string>
+    <string name="analysis_apply_fix">Apply Fix</string>
+    <string name="analysis_dismiss">Dismiss</string>
+    <string name="analysis_no_issues_title">Flawless Text!</string>
+    <string name="analysis_no_issues_desc">No spelling mistakes, punctuation errors, or weak verbs detected in your resume.</string>
+    <string name="analysis_score_label">Text Health Score</string>
+    <string name="analysis_inline_suggestions">Suggestions Available</string>
+    <string name="analysis_stats_words">Words</string>
+    <string name="analysis_stats_chars">Characters</string>
+    <string name="analysis_stats_read_time">Est. Read Time</string>
+    <!-- Dynamic Skills Categorization -->
+    <string name="skills_dynamic_title">Skills &amp; Expertise</string>
+    <string name="skills_category_technical">Technical Skills</string>
+    <string name="skills_category_soft">Soft Skills</string>
+    <string name="skills_category_tools">Tools &amp; Frameworks</string>
+    <string name="skills_category_leadership">Leadership &amp; Management</string>
+    <string name="skills_category_languages">Languages</string>
+    <string name="skills_category_other">Other / Custom</string>
+    <string name="skills_tab_all">All Skills (%1$d)</string>
+    <string name="skills_filter_all">All</string>
+    <string name="skills_add_quick_preset">Quick Add Suggestions</string>
+    <string name="skills_category_label">Category</string>
+    <string name="skills_search_placeholder">Search skills...</string>
+    <string name="skills_empty_category">No skills in this category yet. Tap + to add.</string>
+    <string name="skills_add_dialog_title">Add New Skill</string>
+    <string name="skills_edit_dialog_title">Edit Skill</string>
+    <string name="skills_preset_technical">Tech Presets</string>
+    <string name="skills_preset_soft">Soft Skill Presets</string>
+
+    <!-- Work Experience Timeline & Responsibilities -->
+    <string name="timeline_exp_title">Work Experience Timeline</string>
+    <string name="timeline_date_range">Date Range &amp; Duration</string>
+    <string name="timeline_present">Present</string>
+    <string name="timeline_bullets_title">Bulleted Key Responsibilities</string>
+    <string name="timeline_add_bullet">Add Responsibility Bullet</string>
+    <string name="timeline_bullet_hint">e.g. Spearheaded core mobile architecture reducing crash rate by 40%</string>
+    <string name="timeline_action_verbs">Action Verb Starters</string>
+    <string name="timeline_role_timeline">Career Timeline</string>
+    <string name="timeline_convert_bullets">Convert Description to Bullets</string>
+    <string name="timeline_no_bullets_hint">Add clear, bulleted bullet points with metrics to boost ATS scan score.</string>
 </resources>

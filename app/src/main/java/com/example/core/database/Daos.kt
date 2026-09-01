@@ -50,3 +50,34 @@ interface TemplateCacheDao {
     @Query("DELETE FROM cached_templates WHERE id = :id")
     suspend fun deleteTemplateById(id: String)
 }
+
+@Dao
+interface SkillDao {
+
+    @Query("SELECT * FROM skills WHERE resumeId = :resumeId ORDER BY sortOrder ASC, name ASC")
+    fun getSkillsForResume(resumeId: String): Flow<List<SkillEntity>>
+
+    @Query("SELECT * FROM skills WHERE resumeId = :resumeId AND category = :category ORDER BY sortOrder ASC, name ASC")
+    fun getSkillsForResumeByCategory(resumeId: String, category: String): Flow<List<SkillEntity>>
+
+    @Query("SELECT DISTINCT category FROM skills WHERE resumeId = :resumeId ORDER BY category ASC")
+    fun getCategoriesForResume(resumeId: String): Flow<List<String>>
+
+    @Query("SELECT * FROM skills WHERE resumeId = :resumeId ORDER BY sortOrder ASC, name ASC")
+    suspend fun getSkillsForResumeDirect(resumeId: String): List<SkillEntity>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSkill(skill: SkillEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSkills(skills: List<SkillEntity>)
+
+    @Update
+    suspend fun updateSkill(skill: SkillEntity)
+
+    @Query("DELETE FROM skills WHERE id = :id")
+    suspend fun deleteSkillById(id: String)
+
+    @Query("DELETE FROM skills WHERE resumeId = :resumeId")
+    suspend fun deleteSkillsForResume(resumeId: String)
+}

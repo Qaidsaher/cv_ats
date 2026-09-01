@@ -38,6 +38,11 @@ object SampleData {
                     endDate = "",
                     currentlyWorking = true,
                     description = "• Architected offline-first Android applications with Kotlin Jetpack Compose and Room serving 500k+ active users.\n• Designed scalable RESTful microservices with 99.99% uptime and reduced latency by 35%.\n• Mentored 8 junior and mid-level software engineers on architectural best practices and CI/CD automation.",
+                    bullets = listOf(
+                        "Architected offline-first Android applications with Kotlin Jetpack Compose and Room serving 500k+ active users",
+                        "Designed scalable RESTful microservices with 99.99% uptime and reduced latency by 35%",
+                        "Mentored 8 junior and mid-level software engineers on architectural best practices and CI/CD automation"
+                    ),
                     sortOrder = 0
                 ),
                 Experience(
@@ -49,6 +54,11 @@ object SampleData {
                     endDate = "2022-02",
                     currentlyWorking = false,
                     description = "• Spearheaded core payment processing integrations handling over $20M in monthly volume securely.\n• Modernized legacy monolithic codebase into modular domain-driven architectures.\n• Implemented automated unit and UI testing pipelines increasing test coverage to 92%.",
+                    bullets = listOf(
+                        "Spearheaded core payment processing integrations handling over $20M in monthly volume securely",
+                        "Modernized legacy monolithic codebase into modular domain-driven architectures",
+                        "Implemented automated unit and UI testing pipelines increasing test coverage to 92%"
+                    ),
                     sortOrder = 1
                 )
             ),
@@ -67,12 +77,13 @@ object SampleData {
                 )
             ),
             skills = listOf(
-                Skill(id = UUID.randomUUID().toString(), name = "Kotlin & Jetpack Compose", level = "Expert", sortOrder = 0),
-                Skill(id = UUID.randomUUID().toString(), name = "Android SDK & Architecture", level = "Expert", sortOrder = 1),
-                Skill(id = UUID.randomUUID().toString(), name = "System Architecture", level = "Expert", sortOrder = 2),
-                Skill(id = UUID.randomUUID().toString(), name = "REST & GraphQL APIs", level = "Advanced", sortOrder = 3),
-                Skill(id = UUID.randomUUID().toString(), name = "PostgreSQL & SQLite Room", level = "Advanced", sortOrder = 4),
-                Skill(id = UUID.randomUUID().toString(), name = "CI/CD & Cloud DevOps", level = "Intermediate", sortOrder = 5)
+                Skill(id = UUID.randomUUID().toString(), name = "Kotlin & Jetpack Compose", level = "Expert", category = "Technical", sortOrder = 0),
+                Skill(id = UUID.randomUUID().toString(), name = "Android SDK & Architecture", level = "Expert", category = "Technical", sortOrder = 1),
+                Skill(id = UUID.randomUUID().toString(), name = "System Architecture", level = "Expert", category = "Technical", sortOrder = 2),
+                Skill(id = UUID.randomUUID().toString(), name = "Git & CI/CD Pipelines", level = "Advanced", category = "Tools & Frameworks", sortOrder = 3),
+                Skill(id = UUID.randomUUID().toString(), name = "Docker & Cloud Deployments", level = "Advanced", category = "Tools & Frameworks", sortOrder = 4),
+                Skill(id = UUID.randomUUID().toString(), name = "Technical Leadership & Mentoring", level = "Expert", category = "Soft Skills", sortOrder = 5),
+                Skill(id = UUID.randomUUID().toString(), name = "Cross-Functional Collaboration", level = "Expert", category = "Soft Skills", sortOrder = 6)
             ),
             languages = listOf(
                 LanguageSkill(id = UUID.randomUUID().toString(), name = "English", level = "Fluent", sortOrder = 0),
@@ -150,6 +161,11 @@ object SampleData {
                     endDate = "",
                     currentlyWorking = true,
                     description = "• قيادة وتطوير تطبيقات أندرويد متقدمة باستخدام Kotlin وJetpack Compose تخدم أكثر من 500 ألف مستخدم.\n• تصميم بنية تحتية سحابية مصغرة (Microservices) بتقنيات حديثة رفعت سرعة الاستجابة بنسبة 40%.\n• الإشراف على فريق هندسي وتطبيق أفضل ممارسات اختبار البرمجيات والجودة المستمرة CI/CD.",
+                    bullets = listOf(
+                        "قيادة وتطوير تطبيقات أندرويد متقدمة باستخدام Kotlin وJetpack Compose تخدم أكثر من 500 ألف مستخدم",
+                        "تصميم بنية تحتية سحابية مصغرة (Microservices) بتقنيات حديثة رفعت سرعة الاستجابة بنسبة 40%",
+                        "الإشراف على فريق هندسي وتطبيق أفضل ممارسات اختبار البرمجيات والجودة المستمرة CI/CD"
+                    ),
                     sortOrder = 0
                 ),
                 Experience(
@@ -161,6 +177,11 @@ object SampleData {
                     endDate = "2021-12",
                     currentlyWorking = false,
                     description = "• تطوير بوابات دفع إلكتروني وأنظمة تجارة رقمية مع معالجة آمنة لملايين المعاملات شهرياً.\n• إعادة هيكلة الأنظمة القديمة إلى بنية برمجية معيارية قابلة للتوسع والتطوير السريع.\n• بناء واجهات برمجية RESTful وGraphQL فائقة السرعة.",
+                    bullets = listOf(
+                        "تطوير بوابات دفع إلكتروني وأنظمة تجارة رقمية مع معالجة آمنة لملايين المعاملات شهرياً",
+                        "إعادة هيكلة الأنظمة القديمة إلى بنية برمجية معيارية قابلة للتوسع والتطوير السريع",
+                        "بناء واجهات برمجية RESTful وGraphQL فائقة السرعة"
+                    ),
                     sortOrder = 1
                 )
             ),
@@ -179,12 +200,13 @@ object SampleData {
                 )
             ),
             skills = listOf(
-                Skill(id = UUID.randomUUID().toString(), name = "لغة Kotlin وJetpack Compose", level = "خبير", sortOrder = 0),
-                Skill(id = UUID.randomUUID().toString(), name = "هندسة النظم والتطبيقات", level = "خبير", sortOrder = 1),
-                Skill(id = UUID.randomUUID().toString(), name = "قواعد البيانات SQLite وPostgreSQL", level = "متقدم", sortOrder = 2),
-                Skill(id = UUID.randomUUID().toString(), name = "تطوير واجهات REST وGraphQL", level = "متقدم", sortOrder = 3),
-                Skill(id = UUID.randomUUID().toString(), name = "أتمتة العمليات DevOps وCI/CD", level = "متقدم", sortOrder = 4),
-                Skill(id = UUID.randomUUID().toString(), name = "أنظمة التخزين المحلي والأمان", level = "متقدم", sortOrder = 5)
+                Skill(id = UUID.randomUUID().toString(), name = "لغة Kotlin وJetpack Compose", level = "خبير", category = "Technical", sortOrder = 0),
+                Skill(id = UUID.randomUUID().toString(), name = "هندسة النظم والتطبيقات", level = "خبير", category = "Technical", sortOrder = 1),
+                Skill(id = UUID.randomUUID().toString(), name = "قواعد البيانات SQLite وPostgreSQL", level = "متقدم", category = "Technical", sortOrder = 2),
+                Skill(id = UUID.randomUUID().toString(), name = "تطوير واجهات REST وGraphQL", level = "متقدم", category = "Tools & Frameworks", sortOrder = 3),
+                Skill(id = UUID.randomUUID().toString(), name = "أتمتة العمليات DevOps وCI/CD", level = "متقدم", category = "Tools & Frameworks", sortOrder = 4),
+                Skill(id = UUID.randomUUID().toString(), name = "القيادة التقنية وإدارة الفرق", level = "خبير", category = "Soft Skills", sortOrder = 5),
+                Skill(id = UUID.randomUUID().toString(), name = "التفكير التحليلي وحل المشكلات", level = "خبير", category = "Soft Skills", sortOrder = 6)
             ),
             languages = listOf(
                 LanguageSkill(id = UUID.randomUUID().toString(), name = "العربية", level = "اللغة الأم", sortOrder = 0),
