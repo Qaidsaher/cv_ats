@@ -273,4 +273,32 @@
     <string name="timeline_role_timeline">Career Timeline</string>
     <string name="timeline_convert_bullets">Convert Description to Bullets</string>
     <string name="timeline_no_bullets_hint">Add clear, bulleted bullet points with metrics to boost ATS scan score.</string>
+
+    <!-- LinkedIn JSON Export -->
+    <string name="export_linkedin_title">LinkedIn JSON Export</string>
+    <string name="export_linkedin_subtitle">Export schema compatible with LinkedIn \'Build from Resume\'</string>
+    <string name="export_linkedin_save">Save JSON File</string>
+    <string name="export_linkedin_share">Share JSON</string>
+    <string name="export_linkedin_copy">Copy JSON</string>
+    <string name="export_linkedin_copied">JSON copied to clipboard!</string>
+    <string name="export_linkedin_preview">Inspect JSON Code</string>
+
+    <!-- Resume Score & Completeness Evaluation -->
+    <string name="score_title">Resume Completeness Score</string>
+    <string name="score_view_breakdown">View Breakdown</string>
+    <string name="score_audit_title">Resume Score &amp; Quality Audit</string>
+    <string name="score_audit_subtitle">Real-time evaluation based on global recruiter &amp; ATS standards</string>
+    <string name="score_grade_needs_work">Needs Work</string>
+    <string name="score_grade_good_start">Good Start</string>
+    <string name="score_grade_strong">Strong Resume</string>
+    <string name="score_grade_all_star">All-Star Resume</string>
+    <string name="score_category_personal">Contact &amp; Personal Info</string>
+    <string name="score_category_summary">Professional Summary</string>
+    <string name="score_category_experience">Work Experience</string>
+    <string name="score_category_education">Education &amp; Academics</string>
+    <string name="score_category_skills">Skills &amp; Expertise</string>
+    <string name="score_category_bonus">Bonus Highlights</string>
+    <string name="score_tips_title">Real-Time Improvement Tips</string>
+    <string name="score_tip_fix_action">Improve Now</string>
+    <string name="score_all_completed">Outstanding! All recommended sections are complete and ATS-optimized.</string>
 </resources>

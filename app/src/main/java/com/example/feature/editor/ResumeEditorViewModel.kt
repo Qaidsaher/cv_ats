@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.analysis.AnalysisReport
 import com.example.core.analysis.IssueType
+import com.example.core.analysis.ResumeScoreEngine
+import com.example.core.analysis.ResumeScoreGrade
+import com.example.core.analysis.ResumeScoreReport
 import com.example.core.analysis.TextAnalysisEngine
 import com.example.core.analysis.TextIssue
 import com.example.data.repository.ResumeRepository
@@ -39,6 +42,20 @@ data class EditorUiState(
     val hasSaved: Boolean = false,
     val errorMessage: String? = null
 ) {
+    val scoreReport: ResumeScoreReport
+        get() = if (resume != null) {
+            ResumeScoreEngine.evaluateResume(resume)
+        } else {
+            ResumeScoreReport(
+                overallScore = 0,
+                grade = ResumeScoreGrade.NEEDS_WORK,
+                sectionBreakdowns = emptyList(),
+                tips = emptyList(),
+                completedItems = emptyList(),
+                missingItems = emptyList()
+            )
+        }
+
     val activeIssues: List<TextIssue>
         get() = analysisReport.issues.filter { it.id !in dismissedIssueIds }
     

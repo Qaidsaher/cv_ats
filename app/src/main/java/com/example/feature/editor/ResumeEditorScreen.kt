@@ -269,6 +269,15 @@ fun ResumeEditorScreen(
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
+                // Resume Completeness Score & Real-Time Improvement Tips
+                item(key = "resume_completeness_score_card") {
+                    ResumeScoreProgressBarCard(
+                        report = uiState.scoreReport,
+                        onNavigateToSection = onNavigateToSection,
+                        modifier = Modifier.testTag("editor_resume_completeness_score_card")
+                    )
+                }
+
                 // Resume Text Quality & Grammar Health Card
                 item(key = "resume_health_card") {
                     ResumeTextHealthCard(

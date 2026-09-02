@@ -1,5 +1,8 @@
 package com.example.feature.preview
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,6 +28,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ColorLens
+import androidx.compose.material.icons.filled.DataObject
 import androidx.compose.material.icons.filled.FormatSize
 import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material.icons.filled.Tune
@@ -96,7 +100,10 @@ fun CvPreviewScreen(
     val template = uiState.template
 
     var showCustomizeSheet by remember { mutableStateOf(false) }
+    var showLinkedInExportSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val linkedInSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val context = androidx.compose.ui.platform.LocalContext.current
 
     // Pinch-to-zoom / Pan state
     var scale by remember { mutableFloatStateOf(1f) }
@@ -112,6 +119,15 @@ fun CvPreviewScreen(
                 title = resume?.title ?: stringResource(R.string.preview_title),
                 onBackClick = onNavigateBack,
                 actions = {
+                    IconButton(
+                        onClick = { showLinkedInExportSheet = true },
+                        modifier = Modifier.testTag("preview_linkedin_json_button")
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.DataObject,
+                            contentDescription = "Export for LinkedIn (JSON)"
+                        )
+                    }
                     IconButton(
                         onClick = { showCustomizeSheet = true },
                         modifier = Modifier.testTag("preview_customize_button")
@@ -388,6 +404,17 @@ fun CvPreviewScreen(
         }
     }
 
+    var pendingJsonContent by remember { mutableStateOf<String?>(null) }
+    val createJsonDocumentLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("application/json")
+    ) { uri: Uri? ->
+        val content = pendingJsonContent
+        if (uri != null && content != null) {
+            com.example.core.export.LinkedInJsonExporter.saveJsonToUri(context, content, uri)
+        }
+        pendingJsonContent = null
+    }
+
     if (uiState.showTemplateSelectorSheet && resume != null) {
         AtsTemplateSelectorModalSheet(
             templates = uiState.allTemplates,
@@ -395,5 +422,35 @@ fun CvPreviewScreen(
             onSelectTemplate = { viewModel.changeTemplate(it) },
             onDismiss = { viewModel.setTemplateSelectorSheetVisible(false) }
         )
+    }
+
+    if (showLinkedInExportSheet && resume != null) {
+        ModalBottomSheet(
+            onDismissRequest = { showLinkedInExportSheet = false },
+            sheetState = linkedInSheetState,
+            containerColor = MaterialTheme.colorScheme.surface
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 8.dp)
+                    .verticalScroll(rememberScrollState())
+            ) {
+                com.example.feature.export.LinkedInJsonExportCard(
+                    resume = resume,
+                    onSaveJsonFile = { format, jsonContent, defaultFileName ->
+                        pendingJsonContent = jsonContent
+                        createJsonDocumentLauncher.launch(defaultFileName)
+                    },
+                    onShareJson = { format, jsonContent, defaultFileName ->
+                        com.example.core.export.LinkedInJsonExporter.shareJson(context, jsonContent, defaultFileName)
+                    },
+                    onCopyJson = { jsonContent ->
+                        com.example.core.export.LinkedInJsonExporter.copyToClipboard(context, jsonContent)
+                    }
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+        }
     }
 }

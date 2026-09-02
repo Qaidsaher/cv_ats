@@ -153,9 +153,15 @@ jobs:
             echo "Found Debug APK: build_outputs/ResumeCraft-${{ env.TAG_NAME }}-debug.apk"
           fi
           
-          # Universal copy for direct installation
+          # Universal copy for direct installation and permanent README URLs
           if [ -f "build_outputs/ResumeCraft-${{ env.TAG_NAME }}-release.apk" ]; then
             cp "build_outputs/ResumeCraft-${{ env.TAG_NAME }}-release.apk" "build_outputs/ResumeCraft-${{ env.TAG_NAME }}.apk"
+            cp "build_outputs/ResumeCraft-${{ env.TAG_NAME }}-release.apk" "build_outputs/ResumeCraft.apk"
+            cp "build_outputs/ResumeCraft-${{ env.TAG_NAME }}-release.apk" "build_outputs/ResumeCraft-latest.apk"
+          elif [ -f "build_outputs/ResumeCraft-${{ env.TAG_NAME }}-debug.apk" ]; then
+            cp "build_outputs/ResumeCraft-${{ env.TAG_NAME }}-debug.apk" "build_outputs/ResumeCraft-${{ env.TAG_NAME }}.apk"
+            cp "build_outputs/ResumeCraft-${{ env.TAG_NAME }}-debug.apk" "build_outputs/ResumeCraft.apk"
+            cp "build_outputs/ResumeCraft-${{ env.TAG_NAME }}-debug.apk" "build_outputs/ResumeCraft-latest.apk"
           fi
           
           # Compute SHA256 Checksums

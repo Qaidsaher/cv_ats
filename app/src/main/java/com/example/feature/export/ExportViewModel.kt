@@ -171,6 +171,30 @@ class ExportViewModel(
         }
     }
 
+    fun saveJsonToUri(destinationUri: Uri, jsonContent: String) {
+        viewModelScope.launch {
+            val success = com.example.core.export.LinkedInJsonExporter.saveJsonToUri(context, jsonContent, destinationUri)
+            if (success) {
+                _uiState.update { it.copy(exportSuccessMessage = "LinkedIn Resume JSON successfully saved to device!") }
+            } else {
+                _uiState.update { it.copy(errorMessage = "Failed to save JSON file to selected location.") }
+            }
+        }
+    }
+
+    fun copyJsonToClipboard(jsonContent: String) {
+        val success = com.example.core.export.LinkedInJsonExporter.copyToClipboard(context, jsonContent)
+        if (success) {
+            _uiState.update { it.copy(exportSuccessMessage = "LinkedIn JSON copied to clipboard!") }
+        } else {
+            _uiState.update { it.copy(errorMessage = "Failed to copy JSON to clipboard.") }
+        }
+    }
+
+    fun shareJson(format: com.example.core.export.LinkedInExportFormat, jsonContent: String, fileName: String) {
+        com.example.core.export.LinkedInJsonExporter.shareJson(context, jsonContent, fileName)
+    }
+
     fun sharePdf() {
         val file = _uiState.value.generatedPdfFile ?: return
         PdfExportManager.sharePdf(context, file)

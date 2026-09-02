@@ -73,8 +73,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.R
+import com.example.core.analysis.ResumeScoreEngine
 import com.example.core.designsystem.components.EmptyStateView
 import com.example.domain.model.Resume
+import com.example.feature.editor.ResumeScoreMiniBar
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -508,6 +510,7 @@ private fun ResumeCard(
     onDelete: () -> Unit
 ) {
     var showMenu by remember { mutableStateOf(false) }
+    val scoreReport = remember(resume) { ResumeScoreEngine.evaluateResume(resume) }
     val formattedDate = remember(resume.updatedAt) {
         val sdf = SimpleDateFormat("MMM d, yyyy • hh:mm a", Locale.getDefault())
         sdf.format(Date(resume.updatedAt))
@@ -636,11 +639,18 @@ private fun ResumeCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text(
-                    text = stringResource(R.string.home_last_edited, formattedDate),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Column {
+                    ResumeScoreMiniBar(
+                        score = scoreReport.overallScore,
+                        grade = scoreReport.grade
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = stringResource(R.string.home_last_edited, formattedDate),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
 
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     OutlinedButton(

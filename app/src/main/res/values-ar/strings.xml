@@ -200,4 +200,32 @@
     <string name="onboarding_2_desc">نماذج مخصصة للغة العربية مع دعم تام لاتجاه RTL والخطوط العربية، وتوافق تام مع أنظمة ATS.</string>
     <string name="onboarding_3_title">تصدير PDF وطباعة فائقة الجودة</string>
     <string name="onboarding_3_desc">احصل على ملفات PDF نقية وجاهزة للتقديم المباشر في كبرى الشركات.</string>
+
+    <!-- LinkedIn JSON Export -->
+    <string name="export_linkedin_title">تصدير JSON لمنصة لينكد إن (LinkedIn)</string>
+    <string name="export_linkedin_subtitle">تصدير بصيغة متوافقة مع ميزة إنشاء السيرة الذاتية في لينكد إن ومعايير JSON Resume</string>
+    <string name="export_linkedin_save">حفظ ملف JSON</string>
+    <string name="export_linkedin_share">مشاركة JSON</string>
+    <string name="export_linkedin_copy">نسخ كود JSON</string>
+    <string name="export_linkedin_copied">تم نسخ كود JSON للحافظة بنجاح!</string>
+    <string name="export_linkedin_preview">معاينة وفحص كود JSON</string>
+
+    <!-- Resume Score & Completeness Evaluation -->
+    <string name="score_title">مؤشر اكتمال وجودة السيرة الذاتية</string>
+    <string name="score_view_breakdown">عرض التفاصيل</string>
+    <string name="score_audit_title">تدقيق وتقييم السيرة الذاتية</string>
+    <string name="score_audit_subtitle">تقييم فوري مباشر متوافق مع معايير مسؤولي التوظيف وأنظمة ATS</string>
+    <string name="score_grade_needs_work">بحاجة للمزيد من التفاصيل</string>
+    <string name="score_grade_good_start">بداية جيدة</string>
+    <string name="score_grade_strong">سيرة ذاتية قوية ومتميزة</string>
+    <string name="score_grade_all_star">سيرة مثالية وجاهزة للتقديم</string>
+    <string name="score_category_personal">البيانات الشخصية ومعلومات الاتصال</string>
+    <string name="score_category_summary">الملخص والهدف المهني</string>
+    <string name="score_category_experience">الخبرات والمسار المهني</string>
+    <string name="score_category_education">المؤهلات العلمية والتعليم</string>
+    <string name="score_category_skills">المهارات والقدرات</string>
+    <string name="score_category_bonus">إضافات داعمة (شهادات، لغات، مشاريع)</string>
+    <string name="score_tips_title">نصائح فورية لرفع التقييم</string>
+    <string name="score_tip_fix_action">تحسين الآن</string>
+    <string name="score_all_completed">رائع جداً! كافة الأقسام مكتملة ومتوافقة تماماً مع أعلى معايير ATS.</string>
 </resources>

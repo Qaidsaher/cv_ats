@@ -99,6 +99,18 @@ fun ExportScreen(
         }
     }
 
+    var pendingJsonContent by remember { mutableStateOf<String?>(null) }
+    // SAF Document Creator Launcher for saving JSON to storage
+    val createJsonDocumentLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("application/json")
+    ) { uri: Uri? ->
+        val content = pendingJsonContent
+        if (uri != null && content != null) {
+            viewModel.saveJsonToUri(uri, content)
+        }
+        pendingJsonContent = null
+    }
+
     LaunchedEffect(uiState.errorMessage) {
         uiState.errorMessage?.let {
             snackbarHostState.showSnackbar(it)
@@ -313,7 +325,26 @@ fun ExportScreen(
                 }
             }
 
-            // 3. Document Configuration & Metadata Card
+            // 3. LinkedIn JSON Export Section (Build from Resume Compatible)
+            if (uiState.resume != null) {
+                item {
+                    LinkedInJsonExportCard(
+                        resume = uiState.resume!!,
+                        onSaveJsonFile = { format, jsonContent, defaultFileName ->
+                            pendingJsonContent = jsonContent
+                            createJsonDocumentLauncher.launch(defaultFileName)
+                        },
+                        onShareJson = { format, jsonContent, defaultFileName ->
+                            viewModel.shareJson(format, jsonContent, defaultFileName)
+                        },
+                        onCopyJson = { jsonContent ->
+                            viewModel.copyJsonToClipboard(jsonContent)
+                        }
+                    )
+                }
+            }
+
+            // 4. Document Configuration & Metadata Card
             item {
                 Text(
                     text = "DOCUMENT CONFIGURATION",
